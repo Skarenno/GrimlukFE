@@ -43,7 +43,7 @@ export function Login({ toggleForm }: AuthProps) {
       />
       <button
         type="submit"
-        className="bg-green-600 text-white p-2 rounded hover:bg-green-700"
+        className="bg-green-600 text-white p-2 rounded hover:bg-white-700"
       >
         Login
       </button>
