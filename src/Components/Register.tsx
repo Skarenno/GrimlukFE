@@ -1,6 +1,6 @@
 import React, { useState, type ChangeEvent } from "react";
 import { registerUser } from "../api/user-service";
-
+import { useNavigate } from "react-router-dom";
 type AuthProps = {
     toggleForm: () => void;
 };
@@ -13,11 +13,14 @@ export function Register({ toggleForm }: AuthProps) {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
+    const navigate = useNavigate()
+    
     const handleRegister = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
         await registerUser({ email, password});
         setMessage("Registration successful! You can now login.");
+        navigate("/dashboard", {"replace" : true} );
       } catch (err: any) {
         setMessage(err.response?.data?.detail || "Registration failed");
       }
