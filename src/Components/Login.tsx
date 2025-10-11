@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "../api/user-service";
+import { loginUser } from "../api/user/user-service";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthenticationContext";
 
@@ -21,8 +21,8 @@ export function Login({ toggleForm }: AuthProps) {
     e.preventDefault();
     try {
       const res = await loginUser({ username, password });
-      const token = res.data.access_token; 
-      login(token)
+      login(res.data.jwt_token)
+
       alert("Login successful!");
       navigate("/dashboard", {"replace" : true} );
     } catch (err: any) {

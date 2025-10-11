@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { type  UserRegisterReuqest } from "./requests";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8001";
 
 const api = axios.create({
@@ -19,11 +19,11 @@ api.interceptors.request.use((config) => {
   
 
 
-export const registerUser = async (data: { email: string; password: string }) => {
-    return api.post("/user/register", data);
+export const registerUser = async (data: UserRegisterReuqest) => {
+    return api.post("/register", data);
   };
   
 export const loginUser = async (data: { username: string; password: string }) => {
-  return api.post("/user/login", data);
+  return api.post("/login", data);
 };
 
