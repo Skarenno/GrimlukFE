@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { loginUser } from "../api/user-service";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthenticationContext";
+
 
 type AuthProps = {
   toggleForm: () => void;
@@ -10,14 +13,18 @@ export function Login({ toggleForm }: AuthProps) {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const res = await loginUser({ username, password });
-      const token = res.data.access_token; // Assuming FastAPI returns JWT
-      localStorage.setItem("token", token);
-      setMessage("");
+      const token = res.data.access_token; 
+      login(token)
       alert("Login successful!");
+      navigate("/dashboard", {"replace" : true} );
     } catch (err: any) {
       setMessage(err.response?.data?.detail || "Login failed");
     }
@@ -43,7 +50,7 @@ export function Login({ toggleForm }: AuthProps) {
       />
       <button
         type="submit"
-        className="bg-green-600 text-white p-2 rounded hover:bg-white-700"
+        className="bg-green-600 text-white p-2 rounded hover:bg-green-700"
       >
         Login
       </button>

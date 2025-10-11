@@ -9,10 +9,21 @@ const api = axios.create({
   },
 });
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+  
+
+
 export const registerUser = async (data: { email: string; password: string }) => {
-    return api.post("/register", data);
+    return api.post("/user/register", data);
   };
   
-  export const loginUser = async (data: { username: string; password: string }) => {
-    return api.post("/login", data);
-  };
+export const loginUser = async (data: { username: string; password: string }) => {
+  return api.post("/user/login", data);
+};
+
