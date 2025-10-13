@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthenticationContext";
 import App from "./App";
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
+import Home from "./feature/landing-page/Home";
+import Dashboard from "./feature/dashboard/Dashboard";
 import { ProtectedRoute } from "./Components/Protected";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

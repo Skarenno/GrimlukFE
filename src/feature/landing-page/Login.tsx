@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { loginUser } from "../api/user/user-service";
+import { loginUser } from "../../api/user/user-service";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthenticationContext";
+import { useAuth } from "../../context/AuthenticationContext";
 
 
 type AuthProps = {

@@ -1,8 +1,8 @@
 import React, { useState, type ChangeEvent } from "react";
-import { registerUser } from "../api/user/user-service";
+import { registerUser } from "../../api/user/user-service";
 import { useNavigate } from "react-router-dom";
-import { type UserRegisterReuqest } from "../api/user/requests";
-import { useAuth } from "../context/AuthenticationContext";
+import { type UserRegisterReuqest } from "../../api/user/requests";
+import { useAuth } from "../../context/AuthenticationContext";
 
 type AuthProps = {
     toggleForm: () => void;
@@ -89,7 +89,7 @@ export function Register({ toggleForm }: AuthProps) {
 
   
     return (
-      <form onSubmit={handleRegister} className="flex flex-col gap-3">
+      <form onSubmit={handleRegister} className="flex flex-col gap-4">
         <input
           type="name"
           placeholder="Name"
