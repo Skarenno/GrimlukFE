@@ -4,7 +4,7 @@ import {
 import type { User } from "../../models/User";
 
 interface HeaderProps {
-    user:User,
+    user: User,
     showSidebar: boolean;
     setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -13,7 +13,7 @@ export function Header({ user, showSidebar, setShowSidebar }: HeaderProps) {
 
 
     return <header className="flex items-center justify-between bg-white dark:bg-gray-800 p-4 shadow transition-colors duration-300">
-        <div>
+        <div className="flex items-center">
             <button
                 className="text-gray-500 dark:text-gray-300 focus:outline-none "
                 onClick={() => setShowSidebar(!showSidebar)}
@@ -32,20 +32,24 @@ export function Header({ user, showSidebar, setShowSidebar }: HeaderProps) {
                     />
                 </svg>
             </button>
+            <div className="pl-4 text-2xl font-bold text-green-700 dark:text-green-400">
+                Grimluk Banking
+            </div>
         </div>
+
+
+
 
         <div className="flex items-center space-x-4">
             <FaBell className="w-6 h-6 text-gray-600 dark:text-gray-300 hover:text-green-500 cursor-pointer transition" />
             <div className="flex items-center space-x-2">
                 <span className="text-gray-700 dark:text-gray-200">
-                    Hi, {user.name}
+                    Hi, {user.userInfo.name} {user.userInfo.surname}
                 </span>
-                <img
-                    src="/path/to/avatar.jpg"
-                    alt="Avatar"
-                    className="w-8 h-8 rounded-full"
-                />
+
             </div>
+
+
         </div>
     </header>
 }

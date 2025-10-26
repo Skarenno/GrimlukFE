@@ -1,38 +1,46 @@
+// AuthenticationContext.tsx
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-type AuthContextType = {
-  token: string | null;
+interface AuthContextType {
+  jwt: string | null;
   login: (token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
-};
+}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"));
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  return context;
+};
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [jwt, setJwt] = useState<string | null>(() => localStorage.getItem("jwt"));
 
   const login = (token: string) => {
-    setToken(token);
-    localStorage.setItem("token", token);
+    localStorage.setItem("jwt", token);
+    setJwt(token);
   };
 
   const logout = () => {
-    setToken(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem("jwt");
+    setJwt(null);
   };
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!jwt; // true if jwt exists
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ jwt, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
-  return ctx;
-};
+
+

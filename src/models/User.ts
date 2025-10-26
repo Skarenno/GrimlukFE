@@ -18,18 +18,41 @@ export interface Transaction {
   amount: number;
 }
 
-export interface User {
-  id: string | number;
+export interface UserInfo {
+  id: string;
+  username: string;
+  tax_code: string;
   name: string;
+  surname: string;
+  phone: string;
+  gender?: string | null;
+  residence_address_1?: string | null;
+  residence_address_2?: string | null;
+  city?: string | null;
+  province?: string | null;
+  postal_code?: string | null;
+  country?: string | null;
+}
+
+
+export interface User {
+  userInfo: UserInfo;
   accounts: Account[];
   cards: Card[];
   transactions: Transaction[];
 }
 
 
+
 export const mockUserEmpty: User = {
-  id: 1,
-  name: "Mario Rossi",
+  userInfo: {
+    id: "1",
+    name: "Mario",
+    surname: "Rossi",
+    username: "mario.rossi@a.it",
+    tax_code: "MRRSS023327894N",
+    phone: "+39373737"
+  },
   accounts: [],
   cards: [],
   transactions: [],
@@ -37,8 +60,14 @@ export const mockUserEmpty: User = {
 
 
 export const mockUserFilled: User = {
-  id: 1,
-  name: "Mario Rossi",
+  userInfo: {
+    id: "1",
+    name: "Mario",
+    surname: "Rossi",
+    username: "mario.rossi@a.it",
+    tax_code: "MRRSS023327894N",
+    phone: "+39373737"
+  },
   accounts: [
     {
       name: "Conto Corrente Principale",

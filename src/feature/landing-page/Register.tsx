@@ -57,7 +57,7 @@ export function Register({ toggleForm }: AuthProps) {
         }
         
         const res = await registerUser(userRegisterRequest);
-        login(res.data.jwt_token)
+        login(res.data.jwt_token, res.data.user)
 
         setMessage("Registration successful! Logging in");
         navigate("/dashboard", {"replace" : true} );
