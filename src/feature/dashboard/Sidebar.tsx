@@ -23,9 +23,7 @@ export const Sidebar = ({ logout, show }: SidebarProps) => {
         ${show ? "translate-x-0" : "-translate-x-full"}
       `}
     >
-      <div className="p-6 text-2xl font-bold text-green-700 dark:text-green-400">
-        Grimluk Banking
-      </div>
+
 
       <nav className="flex-1 px-4 space-y-2 overflow-auto">
         <NavItem icon={<FaHome />} label="Dashboard" />

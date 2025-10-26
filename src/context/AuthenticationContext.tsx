@@ -1,9 +1,10 @@
 // AuthenticationContext.tsx
 import { createContext, useContext, useState, type ReactNode } from "react";
+import type { UserInfo } from "../models/User";
 
 interface AuthContextType {
   jwt: string | null;
-  login: (token: string) => void;
+  login: (token: string, userInfo: UserInfo) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -23,8 +24,9 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [jwt, setJwt] = useState<string | null>(() => localStorage.getItem("jwt"));
 
-  const login = (token: string) => {
+  const login = (token: string, userInfo: UserInfo) => {
     localStorage.setItem("jwt", token);
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
     setJwt(token);
   };
 

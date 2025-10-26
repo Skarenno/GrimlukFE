@@ -32,6 +32,6 @@ const api = axios.create({
 // }
 
 
-// // export const getUserInfo = async (data: {username:string }) => {
-// //   return api.get("/user/getUserInfo/" + data.username)
-// // }
+export const getUserInfo = async (data: {username:string }) => {
+  return api.get("/user/getUserInfo/" + data.username)
+}

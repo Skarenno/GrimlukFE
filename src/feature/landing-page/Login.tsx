@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/user/user-service";
 import { useAuth } from "../../context/AuthenticationContext";
@@ -18,7 +18,7 @@ export function Login() {
     try {
       const res = await loginUser({ username, password });
 
-      login(res.data.jwt_token);
+      login(res.data.jwt_token, res.data.user);
       setUser({
         userInfo: res.data.user,
         accounts: [],
@@ -26,7 +26,7 @@ export function Login() {
         transactions: [],
       });
 
-      
+
       // Redirect to dashboard
       navigate("/dashboard", { replace: true });
     } catch (err: any) {

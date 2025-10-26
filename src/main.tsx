@@ -17,7 +17,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/" element={<App />}>
               <Route index element={<Home />} />
             </Route>
-
             <Route
               path="/dashboard"
               element={

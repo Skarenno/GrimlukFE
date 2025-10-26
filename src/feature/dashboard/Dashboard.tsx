@@ -6,6 +6,7 @@ import { Sidebar } from "./Sidebar";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts, getCards, getTransactions } from "../../api/account/account-service";
+import { RedirectingToHome } from "../utils/RedirectingToHome";
 
 export default function Dashboard() {
   const { user, setUser } = useUser();
@@ -39,7 +40,7 @@ useEffect(() => {
   fetchUserData();
 }, [user]);
 
-  if (!user) return <div>Please login...</div>;
+  if (!user) return <RedirectingToHome />;
 
   if (loading)
     return (
