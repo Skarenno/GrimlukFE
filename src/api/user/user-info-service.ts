@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import type { UserInfoRequest } from "./requests";
 // import { type UserInfoRequest } from "./requests";
 
 
@@ -12,26 +13,35 @@ const api = axios.create({
   },
 });
 
-// export async function submitUserInfo(userInfo: UserInfoRequest): Promise<any> {
-//   try {
-//     const response = await api.post("/updateUserInfo", userInfo);
-//     return response.data;
-//   } catch (error: unknown) {
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+  
 
-//     if (axios.isAxiosError(error)) {
-//       const axiosError = error as AxiosError<any>;
-//       console.error("❌ Axios Error:", axiosError.response?.data || axiosError.message);
-//       throw new Error(
-//         axiosError.response?.data?.detail || axiosError.message || "Server error"
-//       );
-//     } else {
-//       console.error("❌ Unexpected Error:", error);
-//       throw new Error("Unexpected error occurred");
-//     }
-//   }
-// }
+export async function submitUserInfo(userInfo: UserInfoRequest): Promise<any> {
+  try {
+    const response = await api.post("/updateUserInfo", userInfo);
+    return response.data;
+  } catch (error: unknown) {
+
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<any>;
+      console.error("Axios Error:", axiosError.response?.data || axiosError.message);
+      throw new Error(
+        axiosError.response?.data?.detail || axiosError.message || "Server error"
+      );
+    } else {
+      console.error("Unexpected Error:", error);
+      throw new Error("Unexpected error occurred");
+    }
+  }
+}
 
 
-export const getUserInfo = async (data: {username:string }) => {
-  return api.get("/user/getUserInfo/" + data.username)
+export const getUserInfo = async (data: {user_id:string }) => {
+  return api.get("/getUserInfo/" + data.user_id)
 }

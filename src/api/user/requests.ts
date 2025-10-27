@@ -1,7 +1,7 @@
-interface UserInfoRequest {
+export interface UserInfoRequest {
+  id?:string;
   username: string;
   tax_code: string;
-  mail:string;
   name: string;
   surname: string;
   birth_date:string;
@@ -14,6 +14,7 @@ interface UserInfoRequest {
   postal_code?: string;
   country?: string;
 }
+
 
 interface UserCredentials {
     username: string;

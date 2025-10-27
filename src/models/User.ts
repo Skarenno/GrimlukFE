@@ -29,6 +29,7 @@ export interface UserInfo {
   residence_address_1?: string | null;
   residence_address_2?: string | null;
   city?: string | null;
+  birth_date:string;
   province?: string | null;
   postal_code?: string | null;
   country?: string | null;
@@ -51,7 +52,8 @@ export const mockUserEmpty: User = {
     surname: "Rossi",
     username: "mario.rossi@a.it",
     tax_code: "MRRSS023327894N",
-    phone: "+39373737"
+    phone: "+39373737",
+    birth_date:"1989-01-01"
   },
   accounts: [],
   cards: [],
@@ -66,7 +68,9 @@ export const mockUserFilled: User = {
     surname: "Rossi",
     username: "mario.rossi@a.it",
     tax_code: "MRRSS023327894N",
-    phone: "+39373737"
+    phone: "+39373737",
+    birth_date:"1989-01-01"
+
   },
   accounts: [
     {

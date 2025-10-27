@@ -44,7 +44,6 @@ export function Register({ toggleForm }: AuthProps) {
           userInfo: {
             name:name,
             surname:surname,
-            mail:email,
             username:email,
             phone:prefix+phone,
             birth_date:birthDate,

@@ -4,7 +4,11 @@ import { loginUser } from "../../api/user/user-service";
 import { useAuth } from "../../context/AuthenticationContext";
 import { useUser } from "../../context/UserContext";
 
-export function Login() {
+type AuthProps = {
+  toggleForm: () => void;
+};
+
+export function Login({ toggleForm }: AuthProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -18,7 +22,7 @@ export function Login() {
     try {
       const res = await loginUser({ username, password });
 
-      login(res.data.jwt_token, res.data.user);
+      await login(res.data.jwt_token, res.data.user);
       setUser({
         userInfo: res.data.user,
         accounts: [],
@@ -55,6 +59,16 @@ export function Login() {
       <button type="submit" className="bg-green-600 text-white p-2 rounded hover:bg-green-700">
         Login
       </button>
+            <p className="text-sm text-gray-600">
+        Don’t have an account?{" "}
+        <button
+          type="button"
+          className="text-blue-600 underline"
+          onClick={toggleForm}
+        >
+          Register
+        </button>
+      </p>
       {message && <p className="text-red-600">{message}</p>}
     </form>
   );

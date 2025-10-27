@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = () => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("userInfo")
     setJwt(null);
   };
 
