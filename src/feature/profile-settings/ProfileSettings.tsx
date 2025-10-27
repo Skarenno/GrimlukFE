@@ -4,6 +4,7 @@ import type { UserInfo } from "../../models/User";
 import { InputField } from "./InputField";
 import { submitUserInfo } from "../../api/user/user-info-service";
 import { mapUserInfoToRequest } from "../../utils/mappers";
+import { useUser } from "../../context/UserContext";
 
 
 interface ProfileSettingsProps {
@@ -18,6 +19,8 @@ export const ProfileSettings = ({ user }: ProfileSettingsProps) => {
   const [form, setForm] = useState<UserInfo>({...user.userInfo,   birth_date: formatDateForInput(user.userInfo.birth_date),});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isFormValid, setIsFormValid] = useState(true);
+
+  const {refreshUser} = useUser()
 
   useEffect(() => {
     console.log(user.userInfo.birth_date)
@@ -62,11 +65,12 @@ export const ProfileSettings = ({ user }: ProfileSettingsProps) => {
     setForm(prev => ({ ...prev, [name]: newValue }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!isFormValid) return;
 
     console.log("Saving profile data:", form);
-    submitUserInfo(mapUserInfoToRequest(form))
+    await submitUserInfo(mapUserInfoToRequest(form))
+    refreshUser()
     setIsEditing(false);
   };
 

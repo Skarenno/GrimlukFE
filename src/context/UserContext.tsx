@@ -1,9 +1,11 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { type User } from "../models/User";
+import { getUserInfo } from "../api/user/user-info-service"; // assume you have this API call
 
 interface UserContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  refreshUser: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,5 +28,23 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       : null;
   });
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  const refreshUser = useCallback(async () => {
+    if (!user?.userInfo?.username) return;
+    try {
+      const response = await getUserInfo({ user_id: user.userInfo.id }); // fetch from API
+      const updatedUserInfo = response.data; // ✅ fix: get actual payload
+
+      const newUser = { ...user, userInfo: updatedUserInfo };
+      setUser(newUser);
+      localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo));
+    } catch (err) {
+      console.error("Failed to refresh user info:", err);
+    }
+  }, [user]);
+
+  return (
+    <UserContext.Provider value={{ user, setUser, refreshUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
