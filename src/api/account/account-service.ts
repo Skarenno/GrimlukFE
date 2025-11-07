@@ -4,7 +4,7 @@ import { type Account, type Card, type Transaction } from "../../models/User";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8002";
 
 const api = axios.create({
-  baseURL: `${API_BASE_URL}/user`,
+  baseURL: `${API_BASE_URL}/account`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -21,16 +21,13 @@ api.interceptors.request.use((config) => {
 
 
 export const create = async (data: AccountCreateRequest) => {
-    return api.post("/register", data);
+    return api.post("/create", data);
   };
-  
-export const loginUser = async (data: { username: string; password: string }) => {
-  return api.post("/login", data);
-};
 
 
 export const getAccounts = async (userId: String): Promise<Account[]> =>{
     const response = await api.get(`/getAccounts/${userId}`);
+    response.data.forEach((account: { account_number: any; balance: any; }) => console.log(account.account_number, account.balance));
     return response.data;
 }
 

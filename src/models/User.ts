@@ -1,9 +1,27 @@
 export interface Account {
-  name: string;
-  balance: number;
+  id: number;
+  user_id: number;
+  username: string;
+
+  account_number: string;
+  account_type: string;
+
   currency: string;
-  lastUpdated?: string;
-  type?: string;
+  balance: number;              // converted to number
+  available_balance: number;    // converted to number
+  credit_limit: number;         // converted to number
+  interest_rate: number;        // converted to number
+
+  is_joint: boolean;
+  branch_code: string;
+  product_code: string;
+
+  status: string;
+
+  opened_at: string;       // ISO date string
+  last_activity?: string | null;
+  created_at: string;
+  updated_at?: string | null;
 }
 
 export interface Card {
@@ -73,21 +91,56 @@ export const mockUserFilled: User = {
 
   },
   accounts: [
-    {
-      name: "Conto Corrente Principale",
-      balance: 3245.67,
-      currency: "€",
-      lastUpdated: "2025-10-13",
-      type: "Corrente",
-    },
-    {
-      name: "Conto Risparmio",
-      balance: 15890.45,
-      currency: "€",
-      lastUpdated: "2025-10-12",
-      type: "Risparmio",
-    },
-  ],
+  {
+    id: 101,
+    user_id: 1,
+    username: "zqaz1234@gmail.com",
+
+    account_number: "ACCT-PRIMARY-001",
+    account_type: "checking",
+
+    currency: "EUR",
+    balance: 3245.67,
+    available_balance: 3245.67,
+    credit_limit: 500.00,
+    interest_rate: 1.25,
+
+    is_joint: false,
+    branch_code: "BR001",
+    product_code: "CHK01",
+    status: "active",
+
+    opened_at: "2024-01-03T10:12:00.000Z",
+    last_activity: "2025-10-13T15:24:00.000Z",
+    created_at: "2024-01-03T10:12:00.000Z",
+    updated_at: "2025-10-13T15:24:00.000Z",
+  },
+
+  {
+    id: 102,
+    user_id: 1,
+    username: "zqaz1234@gmail.com",
+
+    account_number: "ACCT-SAVING-002",
+    account_type: "savings",
+
+    currency: "EUR",
+    balance: 15890.45,
+    available_balance: 15890.45,
+    credit_limit: 0.00,
+    interest_rate: 2.1,
+
+    is_joint: false,
+    branch_code: "BR001",
+    product_code: "SVG01",
+    status: "active",
+
+    opened_at: "2023-05-20T08:05:00.000Z",
+    last_activity: "2025-10-12T11:10:00.000Z",
+    created_at: "2023-05-20T08:05:00.000Z",
+    updated_at: "2025-10-12T11:10:00.000Z",
+  }
+],
   cards: [
     {
       name: "Visa Classic",

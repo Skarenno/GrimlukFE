@@ -5,27 +5,32 @@ import {
 } from "react-icons/fa";
 
 import { type User } from "../../models/User";
+import MakeTransferModal from "../transfer";
+import { useState } from "react";
 
 interface Props {
   user: User;
 }
 
-export function UserDashboard({ user}:Props) {
+export function UserDashboard({ user }: Props) {
   const accounts = user.accounts || [];
   const cards = user.cards || [];
   const transactions = user.transactions || [];
+  const [showTransfer, setShowTransfer] = useState(false);
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-8">
       {/* Welcome Header */}
       <section className="text-left">
         <h2 className="text-3xl font-semibold text-green-700 dark:text-green-400">
-          Welcome, {user.name}
+          Welcome, {user.userInfo.name}
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mt-1">
           Here are some info about your Grimluk account.
         </p>
       </section>
+
+      {showTransfer && <MakeTransferModal user={user} onClose={() => setShowTransfer(false)} />}
 
       <section>
         <h3 className="text-xl font-semibold mb-4">Your accounts</h3>
@@ -36,18 +41,23 @@ export function UserDashboard({ user}:Props) {
               className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition-colors duration-300"
             >
               <p className="text-gray-500 dark:text-gray-400 text-sm">
-                {acct.type || "Bank Account"}
+                {acct.account_number || "Bank Account"}
               </p>
-              <h4 className="text-lg font-semibold mt-2">{acct.name}</h4>
-              <p className="text-3xl font-bold mt-4 text-green-700 dark:text-green-400">
-                {acct.currency}{" "}
-                {acct.balance.toLocaleString("it-IT", {
-                  minimumFractionDigits: 2,
-                })}
-              </p>
+              <h4 className="text-lg font-semibold mt-2">{acct.account_type.toUpperCase()} ACCOUNT</h4>
+              <div className="flex justify-left items-center">
+                <p className="text-2xl font-bold mt-4 text-green-700 dark:text-green-400 pr-4">Balance: </p>
+                <p className="text-2xl font-bold mt-4">
+                  {acct.balance.toLocaleString("it-IT", {
+                    minimumFractionDigits: 2,
+                  })}
+                  {" "}
+                  {acct.currency}
+                </p>
+              </div>
               <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                Last aggiornamento: {acct.lastUpdated || "oggi"}
+                Last update: {acct.updated_at || "today"}
               </p>
+
             </div>
           ))}
         </div>
@@ -103,9 +113,8 @@ export function UserDashboard({ user}:Props) {
                     <td className="py-2">{tx.date}</td>
                     <td className="py-2">{tx.description}</td>
                     <td
-                      className={`py-2 text-right ${
-                        tx.amount < 0 ? "text-red-500" : "text-green-500"
-                      }`}
+                      className={`py-2 text-right ${tx.amount < 0 ? "text-red-500" : "text-green-500"
+                        }`}
                     >
                       {tx.amount < 0 ? <FaArrowDown className="inline mr-1" /> : <FaArrowUp className="inline mr-1" />}
                       {Math.abs(tx.amount).toLocaleString("it-IT", {
@@ -127,7 +136,7 @@ export function UserDashboard({ user}:Props) {
         {/* Quick Actions */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col space-y-4 transition-colors duration-300">
           <h3 className="text-xl font-semibold mb-4">Quick actions</h3>
-          <button className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
+          <button className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition" onClick={() => setShowTransfer(!showTransfer)}>
             <FaExchangeAlt className="inline mr-2" /> New transfer
           </button>
           <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
