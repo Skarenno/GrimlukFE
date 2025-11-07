@@ -1,23 +1,26 @@
-import { FaPlusCircle} from "react-icons/fa";
-  
-export function EmptyDashboard() {
+import { type User } from "../../models/User";
+
+interface EmptyDashboardProps {
+  user: User;
+  onCreateAccount: () => void;
+}
+
+export function EmptyDashboard({ user, onCreateAccount }: EmptyDashboardProps) {
   return (
-    <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transition-colors duration-300">
-      <h2 className="text-3xl font-semibold mb-4 text-green-700 dark:text-green-400">
-        Benvenuto su Grimluk Bank
+    <div className="flex flex-col items-center justify-center h-full text-center">
+      <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        Welcome, {user.userInfo.name}
       </h2>
-      <p className="text-gray-600 dark:text-gray-300 mb-8">
-        Sembra che tu non abbia ancora un conto aperto.
-        <br />
-        Richiedi ora il tuo conto corrente sulla nostra piattaforma!
+      <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md">
+        You don’t have any accounts yet. Create your first one to start using Grimluk banking.
       </p>
-      <button className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
-        <FaPlusCircle className="text-xl" /> Apri un nuovo conto
+
+      <button
+        onClick={onCreateAccount}
+        className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-lg font-medium"
+      >
+        + Create New Account
       </button>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mt-6">
-        In pochi minuti potrai creare un conto corrente, aggiungere carte, e
-        iniziare a gestire le tue finanze in sicurezza.
-      </p>
     </div>
   );
 }

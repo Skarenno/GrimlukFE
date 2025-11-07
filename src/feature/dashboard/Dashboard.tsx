@@ -9,71 +9,60 @@ import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts, getCards, getTransactions } from "../../api/account/account-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
+import CreateAccountModal from "../modals/newAccount"; 
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
-  const { user, setUser } = useUser();
-  const [loading, setLoading] = useState(true);
-  const [redirectHome, setRedirectHome] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false); // ✅ modal state
+  const { user, setUser } = useUser();
   const { logout } = useAuth();
 
-  // ✅ Ref to prevent double fetch in Strict Mode
+  const [loading, setLoading] = useState(true);
+  const [redirectHome, setRedirectHome] = useState(false);
   const fetchedOnce = useRef(false);
 
   useEffect(() => {
-    if (!user?.userInfo?.id) return; // wait until user exists
-    if (fetchedOnce.current) return;  // skip if already fetched
+    if (!user?.userInfo?.id) return;
+    if (fetchedOnce.current) return;
     fetchedOnce.current = true;
 
-    let ignore = false;
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const response = await getUserInfo({ user_id: user.userInfo.id });
+        const userInfo = response.data;
 
-const fetchUserData = async () => {
-  setLoading(true);
-  try {
-    // getUserInfo returns AxiosResponse<UserInfo>
-    const response = await getUserInfo({ user_id: user.userInfo.id });
-    const userInfo = response.data;
-    console.log("Fetched user info:", userInfo);
+        const [accounts, cards, transactions] = await Promise.all([
+          getAccounts(user.userInfo.id),
+          //getCards(user.userInfo.id),
+          //getTransactions(user.userInfo.id),
+          [],
+          []
+        ]);
 
-    const [accounts, cards, transactions] = await Promise.all([
-      getAccounts(user.userInfo.id),
-      //getCards(user.userInfo.id),
-      //getTransactions(user.userInfo.id),
-      [],
-      []
-    ]);
-
-    console.log("Fetched accounts:", accounts);
-
-    setUser(prev =>
-      prev
-        ? {
-            ...prev,
-            userInfo: userInfo,
-            accounts: accounts ?? [],
-            cards: cards ?? [],
-            transactions: transactions ?? [],
-          }
-        : prev
-    );
-  } catch (err: any) {
-    console.error(err);
-    if (err.response?.status !== 404) setRedirectHome(true);
-  } finally {
-    setLoading(false);
-  }
-};
-
+        setUser(prev =>
+          prev
+            ? {
+                ...prev,
+                userInfo: userInfo,
+                accounts: accounts ?? [],
+                cards: cards ?? [],
+                transactions: transactions ?? [],
+              }
+            : prev
+        );
+      } catch (err: any) {
+        console.error(err);
+        if (err.response?.status !== 404) setRedirectHome(true);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchUserData();
-
-    return () => {
-      ignore = true; // prevent state updates if component unmounts
-    };
   }, [user?.userInfo?.id, setUser]);
 
-  // Redirect if no user or API returned 404
   if (!user || redirectHome) return <RedirectingToHome />;
 
   if (loading)
@@ -96,17 +85,25 @@ const fetchUserData = async () => {
             setActiveTab={setActiveTab}
           />
         )}
+
         <main className="flex-1 p-8 overflow-auto bg-gray-100 dark:bg-gray-900">
-          {activeTab === "dashboard" && (
-            user.accounts.length > 0 ? <UserDashboard user={user} /> : <EmptyDashboard />
-          )}
+          {activeTab === "dashboard" &&
+            (user.accounts.length > 0 ? (
+              <UserDashboard user={user} />
+            ) : (
+              <EmptyDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
+            ))}
+
           {activeTab === "profile" && <ProfileSettings user={user} />}
-          {/* Add other tabs here:
-              {activeTab === "accounts" && <AccountsAndCards user={user} />}
-              {activeTab === "transfers" && <Transfers user={user} />}
-          */}
         </main>
       </div>
+
+      {showCreateModal && (
+        <CreateAccountModal
+          user={user}
+          onClose={() => setShowCreateModal(false)}
+        />
+      )}
     </div>
   );
 }

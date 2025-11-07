@@ -5,7 +5,7 @@ import {
 } from "react-icons/fa";
 
 import { type User } from "../../models/User";
-import MakeTransferModal from "../transfer";
+import MakeTransferModal from "../modals/transfer";
 import { useState } from "react";
 
 interface Props {

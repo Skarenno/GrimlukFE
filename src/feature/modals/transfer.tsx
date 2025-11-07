@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import type { User } from "../models/User";
+import { createPortal } from "react-dom";
+import type { User } from "../../models/User";
 
-export default function MakeTransferModal({ user, onClose }: { user: User; onClose: () => void }) {
+interface MakeTransferModalProps {
+  user: User;
+  onClose: () => void;
+}
+
+export default function MakeTransferModal({ user, onClose }: MakeTransferModalProps) {
   const [form, setForm] = useState({
     fromAccount: "",
     recipient: "",
@@ -21,15 +27,16 @@ export default function MakeTransferModal({ user, onClose }: { user: User; onClo
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-lg"
+        className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl"
       >
         <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 space-y-5 relative">
+          {/* Close Button */}
           <button
             onClick={onClose}
             className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 text-xl"
@@ -54,7 +61,7 @@ export default function MakeTransferModal({ user, onClose }: { user: User; onClo
               <option value="">Select account</option>
               {user.accounts.map((acct, idx) => (
                 <option key={idx} value={acct.account_number}>
-                  {acct.account_number}
+                  {acct.account_number} — {acct.currency} {acct.balance}
                 </option>
               ))}
             </select>
@@ -124,6 +131,7 @@ export default function MakeTransferModal({ user, onClose }: { user: User; onClo
           </button>
         </div>
       </motion.div>
-    </div>
+    </div>,
+    document.body
   );
 }
