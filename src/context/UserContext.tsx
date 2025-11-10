@@ -31,8 +31,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const refreshUser = useCallback(async () => {
     if (!user?.userInfo?.username) return;
     try {
-      const response = await getUserInfo({ user_id: user.userInfo.id }); // fetch from API
-      const updatedUserInfo = response.data; // ✅ fix: get actual payload
+      const response = await getUserInfo({ user_id: user.userInfo.id }); 
+      const updatedUserInfo = response.data; 
 
       const newUser = { ...user, userInfo: updatedUserInfo };
       setUser(newUser);

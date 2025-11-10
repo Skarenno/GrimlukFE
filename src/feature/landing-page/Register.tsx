@@ -58,7 +58,7 @@ export function Register({ toggleForm }: AuthProps) {
       }
 
       const res = await registerUser(userRegisterRequest);
-      await login(res.data.jwt_token, res.data.user)
+      await  login(res.data.jwt_token, res.data.refresh_token, res.data.user);
 
       setUser({
         userInfo: res.data.user,

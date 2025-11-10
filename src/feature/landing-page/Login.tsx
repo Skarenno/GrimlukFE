@@ -22,7 +22,7 @@ export function Login({ toggleForm }: AuthProps) {
     try {
       const res = await loginUser({ username, password });
 
-      await login(res.data.jwt_token, res.data.user);
+      await login(res.data.jwt_token, res.data.refresh_token, res.data.user);
       setUser({
         userInfo: res.data.user,
         accounts: [],

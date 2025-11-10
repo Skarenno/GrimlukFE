@@ -31,14 +31,14 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
     const fetchAccountTypes = async () => {
       try {
         const types = await getAccountTypes();
-        setAccountTypes(types); // ✅ store in state
+        setAccountTypes(types);
       } catch (err) {
         console.error("Failed to fetch account types:", err);
       } finally {
         setLoadingTypes(false);
       }
     };
-    fetchAccountTypes(); // ✅ run once on mount
+    fetchAccountTypes(); 
   }, [])
 
   const handleChange = (key: keyof typeof form, value: string | boolean) => {
