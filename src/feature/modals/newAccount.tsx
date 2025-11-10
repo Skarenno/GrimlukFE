@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { type User } from "../../models/User";
 import { createPortal } from "react-dom";
+import type { AccountCreateRequest } from "../../api/account/requests";
+import { createAccount, getAccountTypes } from "../../api/account/account-service";
+import type { AccountType } from "../../api/account/responses";
 
 interface CreateAccountModalProps {
   user: User;
@@ -21,11 +24,63 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
     initial_deposit: "",
   });
 
+  const [accountTypes, setAccountTypes] = useState<AccountType[]>([]);
+  const [loadingTypes, setLoadingTypes] = useState(true);
+
+  useEffect(() => {
+    const fetchAccountTypes = async () => {
+      try {
+        const types = await getAccountTypes();
+        setAccountTypes(types); // ✅ store in state
+      } catch (err) {
+        console.error("Failed to fetch account types:", err);
+      } finally {
+        setLoadingTypes(false);
+      }
+    };
+    fetchAccountTypes(); // ✅ run once on mount
+  }, [])
+
   const handleChange = (key: keyof typeof form, value: string | boolean) => {
+    let newValue: string | boolean = value;
+
+    if (key === "interest_rate") {
+      const num = parseFloat(value as string);
+      if (!isNaN(num)) {
+        newValue = Math.min(5, Math.max(0, num)).toString();
+      } else {
+        newValue = "";
+      }
+      setForm(prev => ({ ...prev, [key]: newValue as string }));
+      return
+    }
+
+    if (key === "initial_deposit") {
+      const num = parseFloat(value as string);
+      if (!isNaN(num)) {
+        newValue = Math.min(250, Math.max(0, num)).toString();
+      } else {
+        newValue = "";
+      }
+      setForm(prev => ({ ...prev, [key]: newValue as string }));
+      return
+    }
+
+    if (key == "account_type") {
+      const accountTypeCode = accountTypes.find(type => type.name == value)?.code
+      console.log(accountTypeCode)
+      setForm((prev) => ({
+        ...prev,
+        [key]: value as string,
+        product_code: accountTypeCode || "",
+      }));
+      return
+    }
+
     setForm(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const payload = {
       ...form,
       user_id: user.userInfo.id,
@@ -35,7 +90,26 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
       initial_deposit: form.initial_deposit ? parseFloat(form.initial_deposit) : undefined,
     };
 
+
+
+    const createRequest: AccountCreateRequest = {
+      user_id: user.userInfo.id,
+      username: user.userInfo.username,
+      account_type: form.account_type,
+      currency: form.currency,
+      branch_code: form.branch_code,
+      product_code: form.product_code,
+      credit_limit: form.credit_limit ? parseFloat(form.credit_limit) : undefined,
+      interest_rate: form.interest_rate ? parseFloat(form.interest_rate) : undefined,
+      initial_deposit: form.initial_deposit ? parseFloat(form.initial_deposit) : undefined,
+    }
+
+    await createAccount(createRequest)
+    await new Promise(resolve => setTimeout(resolve, 2000)); // wait 2 seconds
+
     console.log("Creating account with payload:", payload);
+
+
     if (onSubmit) onSubmit(payload);
     onClose();
   };
@@ -60,17 +134,22 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
             Create New Account
           </h2>
 
-          {/* Account Type */}
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Account Type</label>
             <select
-              value={form.account_type}
-              onChange={(e) => handleChange("account_type", e.target.value)}
               className="w-full p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100"
+              onChange={(e) => handleChange("account_type", e.target.value)}
             >
-              <option value="checking">Checking</option>
-              <option value="savings">Savings</option>
-              <option value="credit">Credit</option>
+              <option value="" disabled>Select account type</option>
+              {loadingTypes ? (
+                <option disabled>Loading...</option>
+              ) : (
+                accountTypes.map((type, idx) => (
+                  <option key={idx} value={type.name}>
+                    {type.name}
+                  </option>
+                ))
+              )}
             </select>
           </div>
 
@@ -106,22 +185,14 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
               placeholder="Optional"
               value={form.interest_rate}
               onChange={(e) => handleChange("interest_rate", e.target.value)}
+
+              min={0}
+              max={5}
+              step="0.01"
               className="w-full p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100"
             />
           </div>
 
-          {/* Joint Account Toggle */}
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={form.is_joint}
-              onChange={(e) => handleChange("is_joint", e.target.checked)}
-              className="h-4 w-4 text-green-600 border-gray-300 rounded"
-            />
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Joint Account</label>
-          </div>
-
-          {/* Branch & Product Code */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Branch Code</label>
@@ -139,9 +210,8 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
                 type="text"
                 placeholder="CHK01"
                 value={form.product_code}
-                onChange={(e) => handleChange("product_code", e.target.value)}
                 className="w-full p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100"
-              />
+                disabled />
             </div>
           </div>
 
@@ -152,7 +222,14 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
               type="number"
               placeholder="Optional"
               value={form.initial_deposit}
+              onKeyDown={(e) => {
+                if (["e", "E", "-", ",", "."].includes(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               onChange={(e) => handleChange("initial_deposit", e.target.value)}
+              min={0}
+              max={250}
               className="w-full p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100"
             />
           </div>

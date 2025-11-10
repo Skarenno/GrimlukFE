@@ -6,10 +6,10 @@ import { Sidebar } from "./Sidebar";
 import { ProfileSettings } from "../profile-settings/ProfileSettings";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
-import { getAccounts, getCards, getTransactions } from "../../api/account/account-service";
+import { getAccounts, getCards, getTransactions, createAccount } from "../../api/account/account-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
-import CreateAccountModal from "../modals/newAccount"; 
+import CreateAccountModal from "../modals/newAccount";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -44,12 +44,12 @@ export default function Dashboard() {
         setUser(prev =>
           prev
             ? {
-                ...prev,
-                userInfo: userInfo,
-                accounts: accounts ?? [],
-                cards: cards ?? [],
-                transactions: transactions ?? [],
-              }
+              ...prev,
+              userInfo: userInfo,
+              accounts: accounts ?? [],
+              cards: cards ?? [],
+              transactions: transactions ?? [],
+            }
             : prev
         );
       } catch (err: any) {
@@ -89,7 +89,7 @@ export default function Dashboard() {
         <main className="flex-1 p-8 overflow-auto bg-gray-100 dark:bg-gray-900">
           {activeTab === "dashboard" &&
             (user.accounts.length > 0 ? (
-              <UserDashboard user={user} />
+              <UserDashboard user={user} onCreateAccount= {() => setShowCreateModal(true)}/>
             ) : (
               <EmptyDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
             ))}
@@ -102,7 +102,19 @@ export default function Dashboard() {
         <CreateAccountModal
           user={user}
           onClose={() => setShowCreateModal(false)}
-        />
+          onSubmit={async () => {
+            try {
+              const updatedAccounts = await getAccounts(user.userInfo.id); // ✅ re-fetch accounts
+
+              setUser((prev) =>
+                prev ? { ...prev, accounts: updatedAccounts ?? [] } : prev
+              );
+
+              setShowCreateModal(false);
+            } catch (err) {
+              console.error("Failed to create account:", err);
+            }
+          }} />
       )}
     </div>
   );

@@ -37,7 +37,7 @@ export interface Transaction {
 }
 
 export interface UserInfo {
-  id: string;
+  id: number;
   username: string;
   tax_code: string;
   name: string;
@@ -65,7 +65,7 @@ export interface User {
 
 export const mockUserEmpty: User = {
   userInfo: {
-    id: "1",
+    id: 1,
     name: "Mario",
     surname: "Rossi",
     username: "mario.rossi@a.it",
@@ -81,7 +81,7 @@ export const mockUserEmpty: User = {
 
 export const mockUserFilled: User = {
   userInfo: {
-    id: "1",
+    id: 1,
     name: "Mario",
     surname: "Rossi",
     username: "mario.rossi@a.it",

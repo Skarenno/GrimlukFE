@@ -42,6 +42,6 @@ export async function submitUserInfo(userInfo: UserInfoRequest): Promise<any> {
 }
 
 
-export const getUserInfo = async (data: {user_id:string }) => {
+export const getUserInfo = async (data: {user_id:number }) => {
   return api.get("/getUserInfo/" + data.user_id)
 }
