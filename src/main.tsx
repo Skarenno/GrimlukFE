@@ -5,28 +5,31 @@ import { AuthProvider } from "./context/AuthenticationContext";
 import App from "./App";
 import Home from "./feature/landing-page/Home";
 import Dashboard from "./feature/dashboard/Dashboard";
-import { ProtectedRoute } from "./Components/Protected";
+import { ProtectedRoute } from "./components/Protected";
 import { UserProvider } from "./context/UserContext";
+import { ErrorProvider } from "./context/ErrorContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
       <UserProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route index element={<Home />} />
-            </Route>
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <ErrorProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<App />}>
+                <Route index element={<Home />} />
+              </Route>
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </ErrorProvider>
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>
