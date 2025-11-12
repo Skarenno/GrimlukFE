@@ -6,15 +6,20 @@ import { Sidebar } from "./Sidebar";
 import { ProfileSettings } from "../profile-settings/ProfileSettings";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
-import { getAccounts, getCards, getTransactions, createAccount } from "../../api/account/account-service";
+import { getAccounts, getCards } from "../../api/account/account-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
-import CreateAccountModal from "../modals/newAccount";
+import CreateAccountModal from "../modals/NewAccount";
+import Accounts from "./AccountAndCards/Accounts";
+import CardSettingsModal from "../modals/CardSettings";
+import type { Card } from "../../models/User";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showSidebar, setShowSidebar] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false); // ✅ modal state
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditCard, setShowEditCard] = useState<Card | null>(null);
+
   const { user, setUser } = useUser();
   const { logout } = useAuth();
 
@@ -35,7 +40,7 @@ export default function Dashboard() {
 
         const [accounts, cards, transactions] = await Promise.all([
           getAccounts(user.userInfo.id),
-          //getCards(user.userInfo.id),
+          getCards(user.userInfo.id),
           //getTransactions(user.userInfo.id),
           [],
           []
@@ -89,12 +94,13 @@ export default function Dashboard() {
         <main className="flex-1 p-8 overflow-auto bg-gray-100 dark:bg-gray-900">
           {activeTab === "dashboard" &&
             (user.accounts.length > 0 ? (
-              <UserDashboard user={user} onCreateAccount= {() => setShowCreateModal(true)}/>
+              <UserDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
             ) : (
               <EmptyDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
             ))}
 
           {activeTab === "profile" && <ProfileSettings user={user} />}
+          {activeTab === "accounts" && <Accounts user={user} onEditCard={setShowEditCard}></Accounts>}
         </main>
       </div>
 
@@ -115,6 +121,17 @@ export default function Dashboard() {
               console.error("Failed to create account:", err);
             }
           }} />
+      )}
+
+      {showEditCard && (
+        <CardSettingsModal
+          card={showEditCard}
+          onClose={() => setShowEditCard(null)}
+          onSave={(updated) => {
+            console.log("Save card changes", updated);
+            setShowEditCard(null);
+          }}
+        />
       )}
     </div>
   );
