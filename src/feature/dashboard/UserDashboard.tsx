@@ -5,7 +5,7 @@ import {
 import { AccountCard } from "./Cards/AccountCard";
 import { CreateAccountCard } from "./AccountAndCards/CreateCard";
 import { type User } from "../../models/User";
-import MakeTransferModal from "../modals/Transfer";
+import MakeTransferModal from "../modals/transfer";
 import { useState } from "react";
 import { CardList } from "./Cards/CardsList";
 import { TransactionList } from "./Transaction/TransactionList";

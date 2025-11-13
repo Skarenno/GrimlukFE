@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { User, Card } from "../../../models/User";
+import type { User, Card, Account } from "../../../models/User";
 import { FaChevronDown } from "react-icons/fa";
 import { DetailedCard } from "./DetailedCard";
 
 interface Props {
   user: User;
   onEditCard: (card: Card) => void;
+  onCreateCard: (acount: Account) => void;
 }
 
-export default function Accounts({ user, onEditCard }: Props) {
+export default function Accounts({ user, onEditCard, onCreateCard }: Props) {
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
+
   const accounts = user.accounts;
   const cards = user.cards || [];
 
@@ -105,6 +107,14 @@ export default function Accounts({ user, onEditCard }: Props) {
                           {linkedCards.map((card, i) => (
                             <DetailedCard key={i} card={card} onSettings={() => onEditCard(card)} />
                           ))}
+                          <div className="mt-4">
+                            <button
+                              onClick={() => onCreateCard(account)}
+                              className="w-full flex justify-center items-center gap-2 py-3 rounded-xl border-2 border-dashed border-green-500 dark:border-green-400 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900 transition"
+                            >
+                              <span className="text-xl font-bold">+</span> Add New Card
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -118,6 +128,8 @@ export default function Accounts({ user, onEditCard }: Props) {
             </div>
           );
         })}
+
+
       </div>
     </div>
   );

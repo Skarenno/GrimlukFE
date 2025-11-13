@@ -9,16 +9,18 @@ import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts, getCards } from "../../api/account/account-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
-import CreateAccountModal from "../modals/NewAccount";
+import CreateAccountModal from "../modals/newAccount";
 import Accounts from "./AccountAndCards/Accounts";
 import CardSettingsModal from "../modals/CardSettings";
-import type { Card } from "../../models/User";
+import type { Account, Card } from "../../models/User";
+import CreateCardModal from "../modals/CardCreate";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showSidebar, setShowSidebar] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditCard, setShowEditCard] = useState<Card | null>(null);
+  const [showCreateCard, setShowCreateCard] = useState<Account | null>(null);
 
   const { user, setUser } = useUser();
   const { logout } = useAuth();
@@ -100,7 +102,7 @@ export default function Dashboard() {
             ))}
 
           {activeTab === "profile" && <ProfileSettings user={user} />}
-          {activeTab === "accounts" && <Accounts user={user} onEditCard={setShowEditCard}></Accounts>}
+          {activeTab === "accounts" && <Accounts user={user} onEditCard={setShowEditCard} onCreateCard={setShowCreateCard}></Accounts>}
         </main>
       </div>
 
@@ -132,6 +134,16 @@ export default function Dashboard() {
             setShowEditCard(null);
           }}
         />
+      )}
+
+      {showCreateCard && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <CreateCardModal
+            account={showCreateCard}
+            onClose={() => setShowCreateCard(null)}
+            onSubmit={(data) => console.log("New card:", data)}
+          />
+        </div>
       )}
     </div>
   );
