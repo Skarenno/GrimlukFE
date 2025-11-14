@@ -6,7 +6,7 @@ import { Sidebar } from "./Sidebar";
 import { ProfileSettings } from "../profile-settings/ProfileSettings";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
-import { getAccounts, getCards } from "../../api/account/account-service";
+import { getAccounts } from "../../api/account/account-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
 import CreateAccountModal from "../modals/newAccount";
@@ -14,6 +14,7 @@ import Accounts from "./AccountAndCards/Accounts";
 import CardSettingsModal from "../modals/CardSettings";
 import type { Account, Card } from "../../models/User";
 import CreateCardModal from "../modals/CardCreate";
+import { getCards } from "../../api/account/card-service";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
