@@ -2,6 +2,8 @@ import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import type { Card } from "../../models/User";
+import { updateCard } from "../../api/account/card-service";
+import type { CardUpdateRequest } from "../../api/account/requests";
 
 interface CardSettingsModalProps {
     card: Card;
@@ -21,10 +23,38 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
         setForm((prev) => ({ ...prev, [key]: value }));
     };
 
-    const handleSave = () => {
-        onSave(form);
-        onClose();
+
+    const handleSubmit = async () => {
+        const updateObj: CardUpdateRequest = {
+            daily_limit: form.daily_limit,
+            online_payments_enabled: form.online_payments_enabled,
+            status: form.status,
+        };
+
+        try {
+            console.log("Updating card with:", updateObj);
+            await updateCard(card.id, updateObj);
+            onSave(updateObj);
+            onClose();
+        } catch (error) {
+            console.error("Card update failed:", error);
+        }
     };
+
+    const handleBlock = async (  status: "active" | "blocked" | "expired" | "lost") =>{
+        const updateObj: CardUpdateRequest = {
+            status: status
+        };
+
+        try {
+            console.log("BLOCKING CARD");
+            await updateCard(card.id, updateObj);
+            onSave(updateObj);
+            onClose();
+        } catch (error) {
+            console.error("Card update failed:", error);
+        }
+    }
 
     const modal = (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -46,7 +76,6 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
                     Card Settings
                 </h2>
 
-                {/* Contactless */}
                 <div className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Contactless Payments
@@ -59,7 +88,6 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
                     />
                 </div>
 
-                {/* Online Payments */}
                 <div className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Online Payments
@@ -72,7 +100,6 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
                     />
                 </div>
 
-                {/* Daily Limit */}
                 <div className="py-3">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200 block mb-1">
                         Daily Limit (€)
@@ -88,38 +115,37 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
                     />
                 </div>
 
-                {/* Card Status */}
-                <div className="py-3">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200 block mb-1">
-                        Status
-                    </label>
-                    <select
-                        value={form.status}
-                        onChange={(e) => handleChange("status", e.target.value)}
-                        className="w-full p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 
-                       dark:border-gray-600 text-gray-800 dark:text-gray-100"
+
+                <div className="flex justify-between items-center mt-6">
+
+                    <button
+                        onClick={() => {
+                            handleChange("status", "blocked");
+                            handleBlock("blocked");
+                        }}
+                        className="px-4 py-2 rounded-lg  hover:bg-red-700 text-white font-semibold transition bg-red-600 dark:bg-red-700" 
                     >
-                        <option value="active">Active</option>
-                        <option value="blocked">Blocked</option>
-                        <option value="lost">Lost</option>
-                    </select>
+                        Block Card
+                    </button>
+
+                    <div className="flex gap-3">
+                        <button
+                            onClick={onClose}
+                            className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 
+            text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            onClick={handleSubmit}
+                            className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition"
+                        >
+                            Save Changes
+                        </button>
+                    </div>
                 </div>
 
-                {/* Buttons */}
-                <div className="flex justify-end gap-3 mt-6">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={handleSave}
-                        className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition"
-                    >
-                        Save Changes
-                    </button>
-                </div>
             </motion.div>
         </div>
     );

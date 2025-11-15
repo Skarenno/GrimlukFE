@@ -103,12 +103,10 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
       interest_rate: form.interest_rate ? parseFloat(form.interest_rate) : undefined,
       initial_deposit: form.initial_deposit ? parseFloat(form.initial_deposit) : undefined,
     }
-
-    await createAccount(createRequest)
-    await new Promise(resolve => setTimeout(resolve, 2000)); // wait 2 seconds
-
     console.log("Creating account with payload:", payload);
 
+    await createAccount(createRequest)
+    await new Promise(resolve => setTimeout(resolve, 1000)); // wait 2 seconds
 
     if (onSubmit) onSubmit(payload);
     onClose();

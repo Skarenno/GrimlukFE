@@ -13,3 +13,19 @@ export interface AccountCreateRequest extends AccountBase {
   username: string;
   initial_deposit?: number;      
 }
+
+export interface CardCreateRequest {
+  user_id: number;
+  account_id: number;
+  cardholder_name: string;
+  card_type: "debit" | "credit" | "prepaid";
+  network: string;
+  daily_limit: number;
+  online_payments_enabled: boolean;
+}
+
+export interface CardUpdateRequest {
+  daily_limit?: number;
+  online_payments_enabled?: boolean;
+  status: "active" | "blocked" | "expired" | "lost";
+}

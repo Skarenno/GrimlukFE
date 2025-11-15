@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { User, Card, Account } from "../../../models/User";
 import { FaChevronDown } from "react-icons/fa";
 import { DetailedCard } from "./DetailedCard";
+import { DetailedCardBlocked } from "./DetailedBlockedCard";
 
 interface Props {
   user: User;
@@ -66,7 +67,6 @@ export default function Accounts({ user, onEditCard, onCreateCard }: Props) {
                     transition={{ duration: 0.3 }}
                     className="p-6 border-t dark:border-gray-700"
                   >
-                    {/* Account Details */}
                     <div className="space-y-2 mb-6">
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         Balance
@@ -105,7 +105,7 @@ export default function Accounts({ user, onEditCard, onCreateCard }: Props) {
                         <h4 className="text-lg font-semibold mb-3">Linked Cards</h4>
                         <div className="grid grid-cols-1 gap-4">
                           {linkedCards.map((card, i) => (
-                            <DetailedCard key={i} card={card} onSettings={() => onEditCard(card)} />
+                            card.status == "blocked" ? <DetailedCardBlocked card={card} key={i}></DetailedCardBlocked> : <DetailedCard key={i} card={card} onSettings={() => onEditCard(card)} />
                           ))}
                           <div className="mt-4">
                             <button
@@ -118,9 +118,17 @@ export default function Accounts({ user, onEditCard, onCreateCard }: Props) {
                         </div>
                       </div>
                     ) : (
-                      <p className="text-gray-500 italic">
-                        No cards linked to this account.
-                      </p>
+                      <div>
+                        <p className="text-gray-500 italic pb-4">
+                          No cards linked to this account.
+                        </p>
+                        <button
+                          onClick={() => onCreateCard(account)}
+                          className="w-full flex justify-center items-center gap-2 py-3 rounded-xl border-2 border-dashed border-green-500 dark:border-green-400 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900 transition"
+                        >
+                          <span className="text-xl font-bold">+</span> Add New Card
+                        </button>
+                      </div>
                     )}
                   </motion.div>
                 )}

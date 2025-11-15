@@ -113,15 +113,16 @@ export default function Dashboard() {
           onClose={() => setShowCreateModal(false)}
           onSubmit={async () => {
             try {
-              const updatedAccounts = await getAccounts(user.userInfo.id); // ✅ re-fetch accounts
-
+              const updatedAccounts = await getAccounts(user.userInfo.id); 
               setUser((prev) =>
                 prev ? { ...prev, accounts: updatedAccounts ?? [] } : prev
               );
 
-              setShowCreateModal(false);
             } catch (err) {
               console.error("Failed to create account:", err);
+            } finally {
+              setShowCreateModal(false);
+
             }
           }} />
       )}
@@ -130,22 +131,46 @@ export default function Dashboard() {
         <CardSettingsModal
           card={showEditCard}
           onClose={() => setShowEditCard(null)}
-          onSave={(updated) => {
-            console.log("Save card changes", updated);
-            setShowEditCard(null);
+          onSave={async () => {
+            try {
+              const updatedCards = await getCards(user.userInfo.id);
+              setUser((prev) =>
+                prev ? { ...prev, cards: updatedCards ?? [] } : prev
+              );
+
+            } catch (err) {
+              console.error("Failed to create card:", err);
+            } finally {
+              setShowEditCard(null)
+            }
           }}
         />
       )}
 
       {showCreateCard && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <CreateCardModal
-            account={showCreateCard}
-            onClose={() => setShowCreateCard(null)}
-            onSubmit={(data) => console.log("New card:", data)}
-          />
-        </div>
+
+        <CreateCardModal
+          account={showCreateCard}
+          onClose={() => setShowCreateCard(null)}
+          onSubmit={async () => {
+            try {
+              const updatedCards = await getCards(user.userInfo.id);
+              setUser((prev) =>
+                prev ? { ...prev, cards: updatedCards ?? [] } : prev
+              );
+
+            } catch (err) {
+              console.error("Failed to create card:", err);
+            } finally {
+              setShowCreateCard(null)
+
+            }
+
+          }}
+        />
+
       )}
+
     </div>
   );
 }
