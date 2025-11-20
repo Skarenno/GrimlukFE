@@ -45,7 +45,6 @@ export default function Dashboard() {
           getAccounts(user.userInfo.id),
           getCards(user.userInfo.id),
           //getTransactions(user.userInfo.id),
-          [],
           []
         ]);
 
@@ -131,7 +130,7 @@ export default function Dashboard() {
         <CardSettingsModal
           card={showEditCard}
           onClose={() => setShowEditCard(null)}
-          onSave={async (updated) => {
+          onSave={async () => {
             try {
               const updatedCards = await getCards(user.userInfo.id);
               setUser((prev) =>

@@ -1,5 +1,5 @@
 import { createApiClient } from "../apiClient";
-import type { AccountCreateRequest } from "./requests";
+import type { AccountCreateRequest, AccountDeleteRequest } from "./requests";
 import type { Account,  Transaction } from "../../models/User";
 import type { AccountType } from "./responses";
 
@@ -22,3 +22,8 @@ export const getAccountTypes = async (): Promise<AccountType[]> => {
   const res = await api.get(`/getAccountTypes`);
   return res.data;
 };
+
+export const deleteAccount = async(data: AccountDeleteRequest) : Promise<Account> => {
+  const res = await api.post(`/delete`, data)
+  return res.data
+}

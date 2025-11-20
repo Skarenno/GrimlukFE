@@ -14,6 +14,11 @@ export interface AccountCreateRequest extends AccountBase {
   initial_deposit?: number;      
 }
 
+export interface AccountDeleteRequest{
+  deleteId: number;
+  transferId?: number;
+}
+
 export interface CardCreateRequest {
   user_id: number;
   account_id: number;
