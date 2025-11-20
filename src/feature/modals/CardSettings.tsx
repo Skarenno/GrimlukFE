@@ -13,7 +13,6 @@ interface CardSettingsModalProps {
 
 export default function CardSettingsModal({ card, onClose, onSave }: CardSettingsModalProps) {
     const [form, setForm] = useState({
-        contactless_enabled: card.contactless_enabled,
         daily_limit: card.daily_limit,
         online_payments_enabled: card.online_payments_enabled,
         status: card.status,
@@ -76,17 +75,7 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
                     Card Settings
                 </h2>
 
-                <div className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Contactless Payments
-                    </label>
-                    <input
-                        type="checkbox"
-                        checked={form.contactless_enabled}
-                        onChange={(e) => handleChange("contactless_enabled", e.target.checked)}
-                        className="h-4 w-4 text-green-600 border-gray-300 rounded"
-                    />
-                </div>
+
 
                 <div className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">

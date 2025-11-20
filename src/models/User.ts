@@ -34,6 +34,7 @@ export interface Card {
   network?: string;           // Visa, MasterCard, etc.
   issuer?: string;            // Bank or institution name
 
+  card_number:string;
   last4: string;              // Last 4 digits
   masked_number?: string;     // **** **** **** 1234
   expiry_month: number;
@@ -164,6 +165,7 @@ export const mockUserFilled: User = {
       network: "Visa",
       issuer: "Grimluk Bank",
       last4: "1234",
+      card_number : "1234 1234 1234 1234",
       masked_number: "**** **** **** 1234",
       expiry_month: 12,
       expiry_year: 2025,
@@ -185,6 +187,7 @@ export const mockUserFilled: User = {
       network: "MasterCard",
       issuer: "Grimluk Bank",
       last4: "5678",
+      card_number : "5678 5678 5678 5678",
       masked_number: "**** **** **** 5678",
       expiry_month: 6,
       expiry_year: 2026,

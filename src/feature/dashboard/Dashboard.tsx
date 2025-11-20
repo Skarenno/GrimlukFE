@@ -131,7 +131,7 @@ export default function Dashboard() {
         <CardSettingsModal
           card={showEditCard}
           onClose={() => setShowEditCard(null)}
-          onSave={async () => {
+          onSave={async (updated) => {
             try {
               const updatedCards = await getCards(user.userInfo.id);
               setUser((prev) =>
