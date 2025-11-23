@@ -1,17 +1,17 @@
-import { createApiClient } from "../apiClient";
 import type { Card } from "../../models/User";
 import type { CardCreateRequest, CardUpdateRequest } from "./requests";
+import { api } from "../apiClient";
 
-const api = createApiClient(import.meta.env.VITE_API_CARD_URL);
+const serviceName = "card"
 
 export const getCards = async (userId: number): Promise<Card[]> => {
-  const res = await api.get(`/getByUser/${userId}`);
+  const res = await api.get(`/${serviceName}/getByUser/${userId}`);
   return res.data;
 };
 
-export const createCard = async (data: CardCreateRequest): Promise<Card> => api.post("/create", data)
+export const createCard = async (data: CardCreateRequest): Promise<Card> => api.post(`/${serviceName}/create`, data)
 
 export const updateCard = async (cardId: number, data: CardUpdateRequest) => {
-  const res = await api.patch(`/update/${cardId}`, data);
+  const res = await api.patch(`/${serviceName}/update/${cardId}`, data);
   return res.data;
 };

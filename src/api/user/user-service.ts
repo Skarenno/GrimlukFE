@@ -1,21 +1,13 @@
-import axios from "axios";
 import { type  UserRegisterReuqest } from "./requests";
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8001";
-
-const api = axios.create({
-  baseURL: `${API_BASE_URL}/user`,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+import { api } from "../apiClient";
   
-
+const serviceName = "user"
 
 export const registerUser = async (data: UserRegisterReuqest) => {
-    return api.post("/register", data);
+    return api.post(`/${serviceName}/register`, data);
   };
   
 export const loginUser = async (data: { username: string; password: string }) => {
-  return api.post("/login", data);
+  return api.post(`/${serviceName}/login`, data);
 };
 

@@ -80,9 +80,9 @@ export const createApiClient = (baseURL: string): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => {
-      if (response.data?.error) {
+      if (response.data?.detail) {
         window.dispatchEvent(
-          new CustomEvent("globalError", { detail: response.data.error })
+          new CustomEvent("globalError", { detail: response.data.detail })
         );
       }
       return response;
@@ -115,3 +115,5 @@ export const createApiClient = (baseURL: string): AxiosInstance => {
 
   return api;
 };
+
+export const api = createApiClient(import.meta.env.VITE_API_BFF_URL);
