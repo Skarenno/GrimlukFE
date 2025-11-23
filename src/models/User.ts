@@ -1,3 +1,5 @@
+import type { CardStatusType } from "../feature/utils/enums";
+
 export interface Account {
   id: number;
   user_id: number;
@@ -40,7 +42,7 @@ export interface Card {
   expiry_month: number;
   expiry_year: number;
 
-  status: "active" | "blocked" | "expired" | "lost";
+  status: CardStatusType;
   is_virtual: boolean;
   contactless_enabled: boolean;
   daily_limit: number;

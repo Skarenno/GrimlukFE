@@ -9,6 +9,9 @@ import MakeTransferModal from "../modals/transfer";
 import { useState } from "react";
 import { CardList } from "./Cards/CardsList";
 import { TransactionList } from "./Transaction/TransactionList";
+import { AccountStatus } from "../utils/enums";
+
+const maxAccount = import.meta.env.VITE_MAX_ACCOUNT_NUMBER
 
 interface Props {
   user: User;
@@ -17,7 +20,8 @@ interface Props {
 }
 
 export function UserDashboard({ user, onCreateAccount }:Props) {
-  const accounts = user.accounts || [];
+  const activeAccounts =user.accounts.filter(acct => acct.status == AccountStatus.Active)
+
   const cards = user.cards || [];
   const transactions = user.transactions || []; 
   const [showTransfer, setShowTransfer] = useState(false);
@@ -34,16 +38,17 @@ export function UserDashboard({ user, onCreateAccount }:Props) {
       </section>
 
       <section>
-        <h3 className="text-xl font-semibold mb-4">Your Accounts</h3>
+        <h3 className="text-xl font-semibold mb-4">Your Active Accounts</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {accounts.map((acct, idx) => (
-            <AccountCard key={idx} account={acct} />
+          {activeAccounts.map((acct, idx) => (
+            <AccountCard key={idx} account={acct} />  
+
           ))}
-          <CreateAccountCard onClick={onCreateAccount} />
+          { activeAccounts.length < maxAccount && <CreateAccountCard onClick={onCreateAccount} />} 
         </div>
       </section>
 
-      <CardList cards={cards} />
+      <CardList cards={cards} accounts={activeAccounts}/>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <TransactionList transactions={transactions} />

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { type UserRegisterReuqest } from "../../api/user/requests";
 import { useAuth } from "../../context/AuthenticationContext";
 import { useUser } from "../../context/UserContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type AuthProps = {
   toggleForm: () => void;
@@ -12,7 +13,7 @@ type AuthProps = {
 export function Register({ toggleForm }: AuthProps) {
 
   const { login } = useAuth();
-  const { setUser } = useUser(); 
+  const { setUser } = useUser();
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -29,6 +30,7 @@ export function Register({ toggleForm }: AuthProps) {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
 
   const birthDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
@@ -58,7 +60,7 @@ export function Register({ toggleForm }: AuthProps) {
       }
 
       const res = await registerUser(userRegisterRequest);
-      await  login(res.data.jwt_token, res.data.refresh_token, res.data.user);
+      await login(res.data.jwt_token, res.data.refresh_token, res.data.user);
 
       setUser({
         userInfo: res.data.user,
@@ -182,19 +184,36 @@ export function Register({ toggleForm }: AuthProps) {
         type="tax_code"
         placeholder="TAX CODE"
         value={taxCode}
-        onChange={e => setTaxCode(e.target.value)}
+        onChange={e => setTaxCode(e.target.value.toUpperCase())}
         className="p-2 border rounded w-[20ch]"
         required
       />
+      <div className="relative w-[36ch]">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="p-2 border rounded w-full pr-10"
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        className="p-2 border rounded w-[36ch]"
-        required
-      />
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          className="
+            absolute right-2 top-1/2 -translate-y-1/2
+            text-gray-400 hover:text-white
+            bg-transparent border-none p-0 m-0
+            flex items-center justify-center
+            z-10
+          "
+          style={{ backgroundColor: "transparent" }}
+        >
+          {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+        </button>
+      </div>
+
       <input
         type="password"
         placeholder="Confirm Password"
@@ -206,17 +225,17 @@ export function Register({ toggleForm }: AuthProps) {
       <button
         type="submit"
         className="
-    inline-block
-    bg-green-600 
-    text-white 
-    p-2 
-    rounded 
-    hover:bg-green-700 
-    focus:outline-none 
-    focus-visible:ring-2 
-    focus-visible:ring-green-500 
-    focus-visible:ring-offset-2
-  "
+            inline-block
+            bg-green-600 
+            text-white 
+            p-2 
+            rounded 
+            hover:bg-green-700 
+            focus:outline-none 
+            focus-visible:ring-2 
+            focus-visible:ring-green-500 
+            focus-visible:ring-offset-2
+        "     
       >
         Register
       </button>

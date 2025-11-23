@@ -9,7 +9,7 @@ import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts } from "../../api/account/account-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
-import CreateAccountModal from "../modals/newAccount";
+import CreateAccountModal from "../modals/AccountCreate";
 import Accounts from "./AccountAndCards/Accounts";
 import CardSettingsModal from "../modals/CardSettings";
 import type { Account, Card } from "../../models/User";
@@ -102,7 +102,7 @@ export default function Dashboard() {
             ))}
 
           {activeTab === "profile" && <ProfileSettings user={user} />}
-          {activeTab === "accounts" && <Accounts user={user} onEditCard={setShowEditCard} onCreateCard={setShowCreateCard}></Accounts>}
+          {activeTab === "accounts" && <Accounts currentUser={user} onEditCard={setShowEditCard} onCreateCard={setShowCreateCard}></Accounts>}
         </main>
       </div>
 

@@ -1,3 +1,5 @@
+import type { CardStatusType } from "../../feature/utils/enums";
+
 export interface AccountBase {
   account_type: string;          
   currency?: string;             
@@ -32,5 +34,5 @@ export interface CardCreateRequest {
 export interface CardUpdateRequest {
   daily_limit?: number;
   online_payments_enabled?: boolean;
-  status: "active" | "blocked" | "expired" | "lost";
+  status: CardStatusType
 }

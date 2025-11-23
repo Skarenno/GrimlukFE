@@ -29,7 +29,11 @@ export function AccountCard({ account }: AccountCardProps) {
       </div>
 
       <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
-        Last update: {account.updated_at || "today"}
+        Last update: {
+          account.updated_at
+            ? new Date(account.updated_at).toLocaleDateString("it-IT")
+            : "today"
+        }
       </p>
     </div>
   );

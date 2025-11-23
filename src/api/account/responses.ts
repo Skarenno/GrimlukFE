@@ -1,5 +1,11 @@
+import type { CardStatusType } from "../../feature/utils/enums";
 
 export interface AccountType{
+    code:string;
+    name:string;
+}
+
+export interface BranchCode{
     code:string;
     name:string;
 }
@@ -19,7 +25,7 @@ export interface CardResponse {
   expiry_month: number;         // 1–12
   expiry_year: number;          // 2023–2100
 
-  status: "active" | "blocked" | "expired" | "lost";
+  status: CardStatusType;
 
   is_virtual: boolean;
   contactless_enabled: boolean;

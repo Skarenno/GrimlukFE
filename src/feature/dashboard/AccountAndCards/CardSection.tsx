@@ -1,6 +1,7 @@
 import type { Account, Card } from "../../../models/User";
 import { DetailedCard } from "./DetailedCard";
 import { DetailedCardBlocked } from "./DetailedBlockedCard";
+import { CardStatus } from "../../utils/enums";
 
 interface Props {
   cards: Card[];
@@ -45,7 +46,7 @@ export default function CardSection({
 
       <div className="grid grid-cols-1 gap-4">
         {cards.map((card) =>
-          card.status === "blocked" ? (
+          card.status === CardStatus.Blocked ? (
             <DetailedCardBlocked key={card.id} card={card} />
           ) : (
             <DetailedCard

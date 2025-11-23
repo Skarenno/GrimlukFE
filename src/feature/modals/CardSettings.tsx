@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Card } from "../../models/User";
 import { updateCard } from "../../api/account/card-service";
 import type { CardUpdateRequest } from "../../api/account/requests";
+import { CardStatus, type CardStatusType } from "../utils/enums";
 
 interface CardSettingsModalProps {
     card: Card;
@@ -40,7 +41,7 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
         }
     };
 
-    const handleBlock = async (  status: "active" | "blocked" | "expired" | "lost") =>{
+    const handleBlock = async (  status: CardStatusType) =>{
         const updateObj: CardUpdateRequest = {
             status: status
         };
@@ -109,7 +110,7 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
 
                     <button
                         onClick={() => {
-                            handleChange("status", "blocked");
+                            handleChange("status", CardStatus.Blocked);
                             handleBlock("blocked");
                         }}
                         className="px-4 py-2 rounded-lg  hover:bg-red-700 text-white font-semibold transition bg-red-600 dark:bg-red-700" 
