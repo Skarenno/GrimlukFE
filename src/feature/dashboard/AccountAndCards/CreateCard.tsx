@@ -21,7 +21,7 @@ export function CreateAccountCard({ onClick }: CreateAccountCardProps) {
 
       {/* Subtitle */}
       <p className="text-gray-500 dark:text-gray-400 text-center text-sm">
-        Open a checking, savings, or credit account
+        Open a checking or savings account
       </p>
     </div>
   );

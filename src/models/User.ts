@@ -36,7 +36,7 @@ export interface Card {
   network?: string;           // Visa, MasterCard, etc.
   issuer?: string;            // Bank or institution name
 
-  card_number:string;
+  card_number: string;
   last4: string;              // Last 4 digits
   masked_number?: string;     // **** **** **** 1234
   expiry_month: number;
@@ -55,10 +55,21 @@ export interface Card {
 
 
 export interface Transaction {
-  date: string;
-  description: string;
+  id: number;
+  s_account_id?: number | null;
+  s_account_number?: string | null;
+  r_account_number?: string | null;
   amount: number;
+  created_at: string;
+  status?: string | null;
+  description?: string | null;
+  reject_reason?: string | null;
+  is_internal?: boolean | null;
+  is_same_user?:boolean | null;
+  is_blocking_account?: boolean | null;
+  direction:string;
 }
+
 
 export interface UserInfo {
   id: number;
@@ -167,7 +178,7 @@ export const mockUserFilled: User = {
       network: "Visa",
       issuer: "Grimluk Bank",
       last4: "1234",
-      card_number : "1234 1234 1234 1234",
+      card_number: "1234 1234 1234 1234",
       masked_number: "**** **** **** 1234",
       expiry_month: 12,
       expiry_year: 2025,
@@ -189,7 +200,7 @@ export const mockUserFilled: User = {
       network: "MasterCard",
       issuer: "Grimluk Bank",
       last4: "5678",
-      card_number : "5678 5678 5678 5678",
+      card_number: "5678 5678 5678 5678",
       masked_number: "**** **** **** 5678",
       expiry_month: 6,
       expiry_year: 2026,
@@ -206,30 +217,47 @@ export const mockUserFilled: User = {
 
   transactions: [
     {
-      date: "2025-10-12",
-      description: "Pagamento bolletta energia",
-      amount: -75.5,
+      id: 101,
+      s_account_id: 55,
+      s_account_number: "ACC-00123",
+      r_account_number: "ACC-00456",
+      amount: 250.00,
+      created_at: "2025-01-15T14:22:10.123Z",
+      status: "VALIDATED",
+      description: "Transfer to savings",
+      reject_reason: null,
+      is_internal: false,
+      is_blocking_account: false,
+      direction: "IN"
     },
     {
-      date: "2025-10-10",
-      description: "Ricarica cellulare",
-      amount: -15.0,
+      id: 102,
+      s_account_id: 55,
+      s_account_number: "ACC-00123",
+      r_account_number: "EXT-981272819",
+      amount: 1200.50,
+      created_at: "2025-02-01T10:05:44.900Z",
+      status: "PENDING",
+      description: "External bank transfer",
+      reject_reason: null,
+      is_internal: true,
+      is_blocking_account: false,
+      direction: "IN"
     },
     {
-      date: "2025-10-08",
-      description: "Stipendio",
-      amount: 2500.0,
-    },
-    {
-      date: "2025-10-07",
-      description: "Acquisto Amazon",
-      amount: -120.99,
-    },
-    {
-      date: "2025-10-06",
-      description: "Bonifico ricevuto da Luca",
-      amount: 500.0,
-    },
+      id: 103,
+      s_account_id: 55,
+      s_account_number: "ACC-00123",
+      r_account_number: "ACC-90001",
+      amount: 500.00,
+      created_at: "2025-01-20T09:11:32.000Z",
+      status: "REJECTED",
+      description: "Payment attempt",
+      reject_reason: "Insufficient funds",
+      is_internal: false,
+      is_blocking_account: false,
+      direction: "OUT"
+    }
   ],
 };
 

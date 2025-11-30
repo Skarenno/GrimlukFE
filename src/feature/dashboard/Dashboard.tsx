@@ -7,6 +7,7 @@ import { ProfileSettings } from "../profile-settings/ProfileSettings";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts } from "../../api/account/account-service";
+import {getTransactionsByAccounts } from "../../api/transaction/transaction-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
 import CreateAccountModal from "../modals/AccountCreate";
@@ -15,6 +16,7 @@ import CardSettingsModal from "../modals/CardSettings";
 import type { Account, Card } from "../../models/User";
 import CreateCardModal from "../modals/CardCreate";
 import { getCards } from "../../api/account/card-service";
+import type { TransactionGetByAccount } from "../../api/transaction/requests";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -40,13 +42,19 @@ export default function Dashboard() {
       try {
         const response = await getUserInfo({ user_id: user.userInfo.id });
         const userInfo = response.data;
-
-        const [accounts, cards, transactions] = await Promise.all([
+        
+        const [accounts, cards] = await Promise.all([
           getAccounts(user.userInfo.id),
-          getCards(user.userInfo.id),
-          //getTransactions(user.userInfo.id),
-          []
+          getCards(user.userInfo.id)
         ]);
+        
+        const accountNumbersList = accounts.map(account => account.account_number)
+        const transactionRequest:TransactionGetByAccount = {
+          account_numbers : accountNumbersList,
+          user_id : user.userInfo.id
+        } 
+        
+        const transactions = await getTransactionsByAccounts(transactionRequest);
 
         setUser(prev =>
           prev

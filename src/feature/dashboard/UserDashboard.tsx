@@ -5,7 +5,7 @@ import {
 import { AccountCard } from "./Cards/AccountCard";
 import { CreateAccountCard } from "./AccountAndCards/CreateCard";
 import { type User } from "../../models/User";
-import MakeTransferModal from "../modals/transfer";
+import MakeTransferModal from "../modals/Transfer";
 import { useState } from "react";
 import { CardList } from "./Cards/CardsList";
 import { TransactionList } from "./Transaction/TransactionList";
@@ -42,7 +42,6 @@ export function UserDashboard({ user, onCreateAccount }:Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {activeAccounts.map((acct, idx) => (
             <AccountCard key={idx} account={acct} />  
-
           ))}
           { activeAccounts.length < maxAccount && <CreateAccountCard onClick={onCreateAccount} />} 
         </div>
@@ -50,7 +49,7 @@ export function UserDashboard({ user, onCreateAccount }:Props) {
 
       <CardList cards={cards} accounts={activeAccounts}/>
 
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section className="grid grid-cols-1 lg:grid-cols-1 gap-6"> {/*lg:grid-cols-2 if other div */}
         <TransactionList transactions={transactions} />
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col space-y-4 transition-colors duration-300">

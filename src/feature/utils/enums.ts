@@ -12,3 +12,11 @@ export const CardStatus = {
 } as const;
 
 export type CardStatusType = typeof CardStatus[keyof typeof CardStatus];
+
+export const TransactionStatus = {
+  PENDING: "PENDING",
+  VALIDATED: "VALIDATED",
+  REJECTED: "REJECTED"
+}
+
+export type TransactionStatusType = typeof TransactionStatus[keyof typeof TransactionStatus];

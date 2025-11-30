@@ -91,26 +91,41 @@ export const createApiClient = (baseURL: string): AxiosInstance => {
       const status = error.response?.status;
       const data = error.response?.data;
 
+      // Unauthorized
       if (status === 401) {
-        console.warn("Unauthorized → redirecting to login");
         localStorage.clear();
         window.location.href = "/";
+        return Promise.reject(error);
       }
 
-      // Backend errors (400–500)
-      const message =
-        data?.detail ||
-        data?.message ||
-        (status ? `Error ${status}` : "Unknown error occurred");
+      let message = "Unknown error occurred";
 
-      if (message) {
-        window.dispatchEvent(
-          new CustomEvent("globalError", { detail: message })
-        );
+      // ✅ FastAPI validation error (422)
+      if (status === 422 && Array.isArray(data?.detail)) {
+        message = data.detail
+          .map((err: any) => err.msg)
+          .join(", ");
       }
+
+      // ✅ Regular backend error
+      else if (typeof data?.detail === "string") {
+        message = data.detail;
+      }
+
+      // ✅ Fallback
+      else if (data?.message) {
+        message = data.message;
+      } else if (status) {
+        message = `Error ${status}`;
+      }
+
+      window.dispatchEvent(
+        new CustomEvent("globalError", { detail: message })
+      );
 
       return Promise.reject(error);
     }
+
   );
 
   return api;
