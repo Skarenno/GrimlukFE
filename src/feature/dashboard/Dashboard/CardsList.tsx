@@ -18,7 +18,7 @@ export function CardList({ cards, accounts }: CardListProps) {
         {activeCards.map((card, idx) => (
           <div
             key={idx}
-            className="border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-xl p-5 flex justify-between items-center shadow-sm hover:shadow-md transition"
+            className="border dark:border-gray-700  dark:bg-gray-800 rounded-xl p-5 flex justify-between items-center shadow-sm hover:shadow-md transition"
           >
             <div>
               <p className="font-medium text-gray-900 dark:text-gray-100">

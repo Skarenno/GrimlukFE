@@ -36,7 +36,7 @@ export default function BlockAccountModal({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-md">
+      <div className=" dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-md">
         <h2 className="text-xl font-semibold mb-3 text-red-600 dark:text-red-400">
           Block This Account?
         </h2>
@@ -45,9 +45,15 @@ export default function BlockAccountModal({
           Blocking <strong>{account.account_type.toUpperCase()}</strong> account{" "}
           <strong>{account.account_number}</strong> is permanent.
         </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-1">
+         <strong>• Cards will be instantly blocked.</strong> 
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-2">
+         <strong>• If you don`t transfer the money to another account, funds will be blocked</strong> 
+        </p>
 
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-          Optionally transfer funds to another account:
+          Transfer to:
         </p>
 
         <select
@@ -66,7 +72,7 @@ export default function BlockAccountModal({
         </select>
 
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-          Type <strong>BLOCK</strong> to confirm:
+          Type <strong className="text-red-500">BLOCK</strong> to confirm:
         </p>
 
         <input
@@ -87,10 +93,9 @@ export default function BlockAccountModal({
           <button
             disabled={!canConfirm}
             className={`px-4 py-2 rounded-lg text-white font-semibold transition
-              ${
-                canConfirm
-                  ? "bg-red-600 hover:bg-red-700"
-                  : "bg-red-400 cursor-not-allowed"
+              ${canConfirm
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-red-400 cursor-not-allowed"
               }`}
             onClick={handleConfirm}
           >

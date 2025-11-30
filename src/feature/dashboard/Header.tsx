@@ -1,18 +1,16 @@
 import {
-    FaBell
+    FaInfo
 } from "react-icons/fa";
-import type { User } from "../../models/User";
 
 interface HeaderProps {
-    user: User,
     showSidebar: boolean;
     setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function Header({ user, showSidebar, setShowSidebar }: HeaderProps) {
+export function Header({ showSidebar, setShowSidebar }: HeaderProps) {
 
 
-    return <header className="flex items-center justify-between bg-white dark:bg-gray-800 p-4 shadow transition-colors duration-300">
+    return <header className="flex items-center justify-between dark:bg-gray-800 p-4 shadow transition-colors duration-300">
         <div className="flex items-center">
             <button
                 className="text-gray-500 dark:text-gray-300 focus:outline-none "
@@ -40,15 +38,8 @@ export function Header({ user, showSidebar, setShowSidebar }: HeaderProps) {
 
 
 
-        <div className="flex items-center space-x-4">
-            <FaBell className="w-6 h-6 text-gray-600 dark:text-gray-300 hover:text-green-500 cursor-pointer transition" />
-            <div className="flex items-center space-x-2">
-                <span className="text-gray-700 dark:text-gray-200">
-                    Hi, {user.userInfo.name} {user.userInfo.surname}
-                </span>
-
-            </div>
-
+        <div className="flex items-center space-x-4 pr-8">
+            <FaInfo className="w-6 h-6 text-gray-600 dark:text-gray-300 hover:text-green-500 cursor-pointer transition" />
 
         </div>
     </header>

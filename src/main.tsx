@@ -4,10 +4,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthenticationContext";
 import App from "./App";
 import Home from "./feature/landing-page/Home";
-import Dashboard from "./feature/dashboard/Dashboard";
+import MainPage from "./feature/dashboard/MainPage";
 import { ProtectedRoute } from "./components/Protected";
 import { UserProvider } from "./context/UserContext";
 import { ErrorProvider } from "./context/ErrorContext";
+import "./index.css"
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -23,7 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 path="/dashboard"
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <MainPage />
                   </ProtectedRoute>
                 }
               />
@@ -34,3 +36,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </AuthProvider>
   </React.StrictMode>
 );
+
+
+

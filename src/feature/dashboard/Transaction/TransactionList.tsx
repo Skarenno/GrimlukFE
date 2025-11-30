@@ -25,7 +25,7 @@ export function TransactionList({ transactions }: TransactionListProps) {
 
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition-colors duration-300">
+    <div className="dark:bg-gray-800 rounded-xl shadow p-6 transition-colors duration-300">
       <h3 className="text-xl font-semibold mb-4">Recent Transactions</h3>
 
       {transactions.length > 0 ? (
@@ -47,9 +47,9 @@ export function TransactionList({ transactions }: TransactionListProps) {
               const directionColor =
                 tx.status == TransactionStatus.REJECTED ?
                   "text-gray-500" :
-                  tx.direction === "OUT"
+                  tx.direction === "NEGATIVE"
                     ? "text-red-500"
-                    : tx.direction === "IN"
+                    : tx.direction === "POSITIVE"
                       ? "text-green-500"
                       : "text-blue-400";
 
@@ -75,8 +75,8 @@ export function TransactionList({ transactions }: TransactionListProps) {
 
 
                   <td className={`py-2 ${directionColor} ${tx.status === TransactionStatus.REJECTED ? "line-through" : ""}`}>
-                    {tx.direction === "OUT" && <FaArrowDown className="inline mr-1" />}
-                    {tx.direction === "IN" && <FaArrowUp className="inline mr-1" />}
+                    {tx.direction === "NEGATIVE" && <FaArrowDown className="inline mr-1" />}
+                    {tx.direction === "POSITIVE" && <FaArrowUp className="inline mr-1" />}
                     {tx.direction === "FLAT" && <FaMinus className="inline mr-1" />}
 
                     {Math.abs(tx.amount).toLocaleString("it-IT", {

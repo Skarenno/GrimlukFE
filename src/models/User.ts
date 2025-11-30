@@ -228,7 +228,7 @@ export const mockUserFilled: User = {
       reject_reason: null,
       is_internal: false,
       is_blocking_account: false,
-      direction: "IN"
+      direction: "POSITIVE"
     },
     {
       id: 102,
@@ -242,7 +242,7 @@ export const mockUserFilled: User = {
       reject_reason: null,
       is_internal: true,
       is_blocking_account: false,
-      direction: "IN"
+      direction: "POSITIVE"
     },
     {
       id: 103,
@@ -256,7 +256,7 @@ export const mockUserFilled: User = {
       reject_reason: "Insufficient funds",
       is_internal: false,
       is_blocking_account: false,
-      direction: "OUT"
+      direction: "NEGATIVE"
     }
   ],
 };

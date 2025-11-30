@@ -19,6 +19,7 @@ export interface AccountCreateRequest extends AccountBase {
 export interface AccountDeleteRequest{
   deleteId: number;
   transferId?: number;
+  userId:number;
 }
 
 export interface CardCreateRequest {

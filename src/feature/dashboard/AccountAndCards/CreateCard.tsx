@@ -7,7 +7,7 @@ export function CreateAccountCard({ onClick }: CreateAccountCardProps) {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer flex flex-col justify-center items-center bg-white dark:bg-gray-800 border-2 border-dashed border-green-500 dark:border-green-400 rounded-2xl shadow-sm hover:shadow-md hover:border-green-600 dark:hover:border-green-300 p-8 transition-all duration-300"
+      className="cursor-pointer flex flex-col justify-center items-center dark:bg-gray-800 border-2 border-dashed border-green-500 dark:border-green-400 rounded-2xl shadow-sm hover:shadow-md hover:border-green-600 dark:hover:border-green-300 p-8 transition-all duration-300"
     >
       {/* Plus icon circle */}
       <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-green-100 dark:bg-green-900">

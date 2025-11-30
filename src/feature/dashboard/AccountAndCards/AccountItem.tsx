@@ -24,15 +24,15 @@ export default function AccountItem({
   onCreateCard,
   onBlockAccount,
 }: Props) {
-  const isBlocked = account.status === "deleted";
+  const status = account.status
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden transition-all">
+    <div className="dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden transition-all">
       
       {/* Header */}
       <AccountHeader
         account={account}
-        isBlocked={isBlocked}
+        status={status}
         isSelected={isSelected}
         onToggle={onToggle}
       />
@@ -51,7 +51,7 @@ export default function AccountItem({
               account={account}
               cards={cards}
               allAccounts={allAccounts}
-              isBlocked={isBlocked}
+              status={status}
               onEditCard={onEditCard}
               onCreateCard={onCreateCard}
               onBlockAccount={onBlockAccount}

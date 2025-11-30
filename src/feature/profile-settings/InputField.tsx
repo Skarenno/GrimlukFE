@@ -25,7 +25,7 @@ export function InputField({
         onChange={onChange}
         disabled={disabled}
         className={`w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100
-          ${disabled ? "bg-gray-100 dark:bg-gray-800 cursor-not-allowed" : "bg-white dark:bg-gray-700"}
+          ${disabled ? "bg-gray-100 dark:bg-gray-800 cursor-not-allowed" : "dark:bg-gray-700"}
           ${error ? "border-red-500" : "border-gray-300 dark:border-gray-600"}
         `}
       />

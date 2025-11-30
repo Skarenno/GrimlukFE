@@ -15,7 +15,7 @@ interface Props {
 
 export default function Accounts({ currentUser, onEditCard, onCreateCard }: Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   const [showActiveOnly, setShowActiveOnly] = useState(false);
 
   const accounts = currentUser.accounts;
@@ -58,7 +58,8 @@ export default function Accounts({ currentUser, onEditCard, onCreateCard }: Prop
               onBlockAccount={async (opts) => {
                 const accountDeleteRequest: AccountDeleteRequest = {
                   deleteId: account.id,
-                  transferId: opts.targetAccountId ?? undefined
+                  transferId: opts.targetAccountId ?? undefined,
+                  userId: currentUser?.userInfo.id
                 };
 
                 try {

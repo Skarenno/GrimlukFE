@@ -75,7 +75,7 @@ export const ProfileSettings = ({ user }: ProfileSettingsProps) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md">
+    <div className="max-w-3xl mx-auto dark:bg-gray-800 p-8 rounded-2xl shadow-md">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">Profile Settings</h2>
         {!isEditing ? (

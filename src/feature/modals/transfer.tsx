@@ -118,7 +118,7 @@ export default function MakeTransferModal({ user, onClose }: MakeTransferModalPr
         className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl"
       >
 
-        <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 space-y-5 relative">
+        <div className="dark:bg-gray-800 shadow-xl rounded-2xl p-6 space-y-5 relative">
 
           <button
             onClick={onClose}

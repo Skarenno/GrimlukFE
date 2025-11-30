@@ -37,7 +37,7 @@ export const Sidebar = ({ logout, show, activeTab, setActiveTab }: SidebarProps)
   return (
     <aside
       className={`
-        w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 shadow-sm flex flex-col h-full
+        w-64 dark:bg-gray-800 border-r dark:border-gray-700 shadow-sm flex flex-col h-full
         transform transition-transform duration-300 ease-in-out
         ${show ? "translate-x-0" : "-translate-x-full"}
       `}

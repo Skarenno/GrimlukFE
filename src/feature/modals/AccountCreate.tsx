@@ -142,7 +142,7 @@ export default function CreateAccountModal({ user, onClose, onSubmit }: CreateAc
         transition={{ duration: 0.3 }}
         className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl"
       >
-        <div className="relative bg-white dark:bg-gray-800 p-6 space-y-5 rounded-2xl">
+        <div className="relative dark:bg-gray-800 p-6 space-y-5 rounded-2xl">
           <form onSubmit={handleSubmit} className="space-y-5">
             <button
               onClick={onClose}

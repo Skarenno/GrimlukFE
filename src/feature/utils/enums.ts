@@ -1,5 +1,6 @@
 export const AccountStatus = {
     Active: "active",
+    InDeletion: "in deletion",
     Deleted: "deleted",
 
 };

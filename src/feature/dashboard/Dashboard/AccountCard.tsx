@@ -7,7 +7,7 @@ interface AccountCardProps {
 
 export function AccountCard({ account }: AccountCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 transition-colors duration-300">
+    <div className="dark:bg-gray-800 rounded-xl shadow p-6 transition-colors duration-300">
       <p className="text-gray-500 dark:text-gray-400 text-sm">
         {account.account_number || "Bank Account"}
       </p>

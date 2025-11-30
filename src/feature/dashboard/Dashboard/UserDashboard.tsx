@@ -2,14 +2,14 @@ import {
   FaExchangeAlt
 } from "react-icons/fa";
 
-import { AccountCard } from "./Cards/AccountCard";
-import { CreateAccountCard } from "./AccountAndCards/CreateCard";
-import { type User } from "../../models/User";
-import MakeTransferModal from "../modals/Transfer";
+import { AccountCard } from "./AccountCard";
+import { CreateAccountCard } from "../AccountAndCards/CreateCard";
+import { type User } from "../../../models/User";
+import MakeTransferModal from "../../modals/Transfer";
 import { useState } from "react";
-import { CardList } from "./Cards/CardsList";
-import { TransactionList } from "./Transaction/TransactionList";
-import { AccountStatus } from "../utils/enums";
+import { CardList } from "./CardsList";
+import { TransactionList } from "../Transaction/TransactionList";
+import { AccountStatus } from "../../utils/enums";
 
 const maxAccount = import.meta.env.VITE_MAX_ACCOUNT_NUMBER
 
@@ -52,7 +52,7 @@ export function UserDashboard({ user, onCreateAccount }:Props) {
       <section className="grid grid-cols-1 lg:grid-cols-1 gap-6"> {/*lg:grid-cols-2 if other div */}
         <TransactionList transactions={transactions} />
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col space-y-4 transition-colors duration-300">
+        <div className="dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col space-y-4 transition-colors duration-300">
           <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
           <button
             className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"

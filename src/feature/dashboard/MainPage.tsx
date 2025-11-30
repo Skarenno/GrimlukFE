@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { UserDashboard } from "./UserDashboard";
-import { EmptyDashboard } from "./EmptyDashboard";
+import { UserDashboard } from "./Dashboard/UserDashboard";
+import { EmptyDashboard } from "./Dashboard/EmptyDashboard";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { ProfileSettings } from "../profile-settings/ProfileSettings";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts } from "../../api/account/account-service";
-import {getTransactionsByAccounts } from "../../api/transaction/transaction-service";
+import { getTransactionsByAccounts } from "../../api/transaction/transaction-service";
 import { RedirectingToHome } from "../utils/RedirectingToHome";
 import { getUserInfo } from "../../api/user/user-info-service";
 import CreateAccountModal from "../modals/AccountCreate";
@@ -17,8 +17,9 @@ import type { Account, Card } from "../../models/User";
 import CreateCardModal from "../modals/CardCreate";
 import { getCards } from "../../api/account/card-service";
 import type { TransactionGetByAccount } from "../../api/transaction/requests";
+import TransfersList from "./Transfers/TransfersList";
 
-export default function Dashboard() {
+export default function MainPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showSidebar, setShowSidebar] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -42,18 +43,18 @@ export default function Dashboard() {
       try {
         const response = await getUserInfo({ user_id: user.userInfo.id });
         const userInfo = response.data;
-        
+
         const [accounts, cards] = await Promise.all([
           getAccounts(user.userInfo.id),
           getCards(user.userInfo.id)
         ]);
-        
+
         const accountNumbersList = accounts.map(account => account.account_number)
-        const transactionRequest:TransactionGetByAccount = {
-          account_numbers : accountNumbersList,
-          user_id : user.userInfo.id
-        } 
-        
+        const transactionRequest: TransactionGetByAccount = {
+          account_numbers: accountNumbersList,
+          user_id: user.userInfo.id
+        }
+
         const transactions = await getTransactionsByAccounts(transactionRequest);
 
         setUser(prev =>
@@ -82,15 +83,15 @@ export default function Dashboard() {
 
   if (loading)
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-900">
         <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
         <p className="mt-4 text-gray-700 dark:text-gray-200 text-lg">Loading dashboard...</p>
       </div>
     );
 
   return (
-    <div className={`dark flex flex-col h-screen`}>
-      <Header user={user} setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
+    <div className="flex flex-col h-screen">
+      <Header setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       <div className="flex flex-1 overflow-hidden">
         {showSidebar && (
           <Sidebar
@@ -101,7 +102,7 @@ export default function Dashboard() {
           />
         )}
 
-        <main className="flex-1 p-8 overflow-auto bg-gray-100 dark:bg-gray-900">
+        <main className="flex-1 p-8 overflow-auto dark:bg-gray-900">
           {activeTab === "dashboard" &&
             (user.accounts.length > 0 ? (
               <UserDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
@@ -111,6 +112,7 @@ export default function Dashboard() {
 
           {activeTab === "profile" && <ProfileSettings user={user} />}
           {activeTab === "accounts" && <Accounts currentUser={user} onEditCard={setShowEditCard} onCreateCard={setShowCreateCard}></Accounts>}
+          {activeTab === "transfers" && <TransfersList transactions={user.transactions} accounts={user.accounts}></TransfersList>}
         </main>
       </div>
 
@@ -120,7 +122,7 @@ export default function Dashboard() {
           onClose={() => setShowCreateModal(false)}
           onSubmit={async () => {
             try {
-              const updatedAccounts = await getAccounts(user.userInfo.id); 
+              const updatedAccounts = await getAccounts(user.userInfo.id);
               setUser((prev) =>
                 prev ? { ...prev, accounts: updatedAccounts ?? [] } : prev
               );

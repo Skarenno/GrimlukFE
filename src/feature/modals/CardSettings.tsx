@@ -63,7 +63,7 @@ export default function CardSettingsModal({ card, onClose, onSave }: CardSetting
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.25 }}
-                className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 relative"
+                className="w-full max-w-md dark:bg-gray-800 rounded-2xl shadow-lg p-6 relative"
             >
                 <button
                     onClick={onClose}

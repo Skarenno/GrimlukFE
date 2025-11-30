@@ -16,6 +16,7 @@ export default function Home() {
       <div className="flex-1 flex items-center justify-center">
       </div>
 
+
       {/* Right side: Auth form */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md border rounded shadow">
