@@ -1,3 +1,4 @@
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import type { Account } from "../../../models/User";
 import type { FlowFilter, SortField, SortDir } from "./TransfersList";
 
@@ -21,15 +22,16 @@ export default function TransfersFilters(props: Props) {
     "bg-gray-50 dark:bg-gray-800 " +
     "border-gray-300 dark:border-gray-700 " +
     "text-gray-900 dark:text-gray-100 " +
-    "hover:outline-none hover:ring-2 hover:ring-green-500";
+    "focus:outline-none focus:ring-2 focus:ring-green-500";
 
   return (
     <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 backdrop-blur
                     border-b dark:border-gray-700 p-4 space-y-3">
 
       {/* SELECTORS */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center">
 
+        {/* ACCOUNT FILTER */}
         <select
           value={props.accountFilter}
           onChange={e => props.onAccountChange(e.target.value as any)}
@@ -43,6 +45,7 @@ export default function TransfersFilters(props: Props) {
           ))}
         </select>
 
+        {/* SORT FIELD */}
         <select
           value={props.sortField}
           onChange={e => props.onSortChange(e.target.value as SortField)}
@@ -52,18 +55,25 @@ export default function TransfersFilters(props: Props) {
           <option value="amount">Amount</option>
         </select>
 
-        <select
-          value={props.sortDir}
-          onChange={e => props.onDirChange(e.target.value as SortDir)}
-          className={inputClass}
-        >
-          <option value="desc">↓ Desc</option>
-          <option value="asc">↑ Asc</option>
-        </select>
+        {/* SORT DIRECTION BUTTON */}
+        <div className="flex justify-left">
+          <button
+            type="button"
+            onClick={() =>
+              props.onDirChange(props.sortDir === "asc" ? "desc" : "asc")
+            }
+            title="Toggle sort direction"
+            className="border-none shadow-none
+                          p-0 m-0 inline-flex items-center justify-center 
+                          text-gray-500 hover:text-green-400
+                          focus:outline-none focus:ring-0 focus:ring-offset-0">
+            {props.sortDir === "asc" ? <FaArrowUp /> : <FaArrowDown />}
+          </button>
+        </div>
 
       </div>
 
-      {/* SEARCH (full row) */}
+      {/* SEARCH */}
       <div className="flex">
         <input
           type="text"
@@ -74,17 +84,18 @@ export default function TransfersFilters(props: Props) {
         />
       </div>
 
-      {/* FILTER TABS */}
+      {/* FLOW FILTER TABS */}
       <div className="flex gap-2">
-        {["all", "positive", "negative", "flat"].map(flow => (
+        {(["all", "positive", "negative", "flat"] as FlowFilter[]).map(flow => (
           <button
             key={flow}
-            onClick={() => props.onFlowChange(flow as FlowFilter)}
+            onClick={() => props.onFlowChange(flow)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition
-              ${props.flowFilter === flow
-                ? "bg-green-600 text-green-400 "
-                : "bg-gray-200 dark:bg-gray-700 hover:text-green-300"}
-            `}
+              ${
+                props.flowFilter === flow
+                  ? "bg-green-600 text-white shadow"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-green-200 dark:hover:bg-green-800"
+              }`}
           >
             {flow.toUpperCase()}
           </button>

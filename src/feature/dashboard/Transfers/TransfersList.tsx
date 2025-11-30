@@ -3,7 +3,7 @@ import type { Transaction, Account } from "../../../models/User";
 import TransfersFilters from "./TransfersFilters";
 import TransfersGrid from "./TransfersGrid";
 
-export type FlowFilter = "all" | "in" | "out" | "flat";
+export type FlowFilter = "all" | "positive" | "negative" | "flat";
 export type SortField = "date" | "amount";
 export type SortDir = "asc" | "desc";
 
