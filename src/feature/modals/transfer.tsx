@@ -9,11 +9,12 @@ import { AccountStatus } from "../utils/enums";
 interface MakeTransferModalProps {
   user: User;
   onClose: () => void;
+  onSubmit: () => void;
 }
 
 type TransferMode = "EXTERNAL" | "INTERNAL" | "SAME_USER";
 
-export default function MakeTransferModal({ user, onClose }: MakeTransferModalProps) {
+export default function MakeTransferModal({ user, onClose, onSubmit }: MakeTransferModalProps) {
 
   const activeAccounts = user.accounts.filter(acct => acct.status == AccountStatus.Active)
   const hasMultipleAccounts = activeAccounts.length > 1;
@@ -106,8 +107,10 @@ export default function MakeTransferModal({ user, onClose }: MakeTransferModalPr
       is_same_user
     };
 
+    console.log("creating")
     await createTransaction(transfer);
-    onClose();
+    console.log("about to submit")
+    onSubmit();
   };
 
   return createPortal(

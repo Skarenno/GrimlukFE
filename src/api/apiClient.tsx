@@ -67,7 +67,7 @@ export const createApiClient = (baseURL: string): AxiosInstance => {
         refreshedToken = null;
         console.error("Token refresh failed:", err);
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = "/";
         return Promise.reject(err);
       }
     } else if (token) {

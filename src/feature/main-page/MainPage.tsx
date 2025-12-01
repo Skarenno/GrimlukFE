@@ -18,6 +18,7 @@ import CreateCardModal from "../modals/CardCreate";
 import { getCards } from "../../api/account/card-service";
 import type { TransactionGetByAccount } from "../../api/transaction/requests";
 import TransfersList from "./Transactions/TransactionsList";
+import MakeTransferModal from "../modals/Transfer";
 
 export default function MainPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -25,6 +26,7 @@ export default function MainPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditCard, setShowEditCard] = useState<Card | null>(null);
   const [showCreateCard, setShowCreateCard] = useState<Account | null>(null);
+  const [showMakeTransfer, setShowMakeTransfer] = useState(false);
 
   const { user, setUser } = useUser();
   const { logout } = useAuth();
@@ -105,7 +107,7 @@ export default function MainPage() {
         <main className="flex-1 p-8 overflow-auto dark:bg-gray-900">
           {activeTab === "dashboard" &&
             (user.accounts.length > 0 ? (
-              <UserDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
+              <UserDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} onMakeTransfer={() => setShowMakeTransfer(true)} />
             ) : (
               <EmptyDashboard user={user} onCreateAccount={() => setShowCreateModal(true)} />
             ))}
@@ -179,6 +181,31 @@ export default function MainPage() {
         />
 
       )}
+
+        {showMakeTransfer && (
+          <MakeTransferModal
+            user={user}
+            onClose={() => setShowMakeTransfer(false)}
+            onSubmit={async () => {
+              try {
+                const accountNumbersList = user.accounts.map(account => account.account_number)
+
+                const transactionRequest: TransactionGetByAccount = {
+                  account_numbers: accountNumbersList,
+                  user_id: user.userInfo.id
+                }
+                const updatedTransactions = await getTransactionsByAccounts(transactionRequest);
+                setUser((prev) =>
+                  prev ? { ...prev, transactions: updatedTransactions ?? [] } : prev
+                );
+
+              } catch (err) {
+                console.error("Failed to reload transactions:", err);
+              } finally {
+                setShowMakeTransfer(false)
+              }
+            }} />
+        )}
 
     </div>
   );

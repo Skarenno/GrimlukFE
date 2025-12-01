@@ -5,8 +5,6 @@ import {
 import { AccountCard } from "./AccountCard";
 import { CreateAccountCard } from "../AccountAndCards/CreateCard";
 import { type User } from "../../../models/User";
-import MakeTransferModal from "../../modals/Transfer";
-import { useState } from "react";
 import { CardList } from "./CardsList";
 import { TransactionList } from "./TransactionList";
 import { AccountStatus } from "../../utils/enums";
@@ -16,15 +14,14 @@ const maxAccount = import.meta.env.VITE_MAX_ACCOUNT_NUMBER
 interface Props {
   user: User;
   onCreateAccount: () => void;
-
+  onMakeTransfer: () => void;
 }
 
-export function UserDashboard({ user, onCreateAccount }:Props) {
+export function UserDashboard({ user, onCreateAccount, onMakeTransfer }:Props) {
   const activeAccounts =user.accounts.filter(acct => acct.status == AccountStatus.Active)
 
   const cards = user.cards || [];
   const transactions = user.transactions || []; 
-  const [showTransfer, setShowTransfer] = useState(false);
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-8">
@@ -56,16 +53,14 @@ export function UserDashboard({ user, onCreateAccount }:Props) {
           <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
           <button
             className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
-            onClick={() => setShowTransfer(!showTransfer)}
+            onClick={() => onMakeTransfer()}
           >
             <FaExchangeAlt className="inline mr-2" /> New Transfer
           </button>
         </div>
       </section>
 
-      {showTransfer && (
-        <MakeTransferModal user={user} onClose={() => setShowTransfer(false)} />
-      )}
+
     </div>
   );
 }
