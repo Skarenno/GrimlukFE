@@ -1,5 +1,5 @@
 import type { Transaction } from "../../../models/User";
-import TransferItem from "./TransferItem";
+import TransferItem from "./TransactionItem";
 
 interface Props {
   transactions: Transaction[];

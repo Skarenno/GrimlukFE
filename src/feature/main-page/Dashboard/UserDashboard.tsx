@@ -8,7 +8,7 @@ import { type User } from "../../../models/User";
 import MakeTransferModal from "../../modals/Transfer";
 import { useState } from "react";
 import { CardList } from "./CardsList";
-import { TransactionList } from "../Transaction/TransactionList";
+import { TransactionList } from "./TransactionList";
 import { AccountStatus } from "../../utils/enums";
 
 const maxAccount = import.meta.env.VITE_MAX_ACCOUNT_NUMBER
@@ -59,12 +59,6 @@ export function UserDashboard({ user, onCreateAccount }:Props) {
             onClick={() => setShowTransfer(!showTransfer)}
           >
             <FaExchangeAlt className="inline mr-2" /> New Transfer
-          </button>
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
-            Pay Bill
-          </button>
-          <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition">
-            Phone Charge
           </button>
         </div>
       </section>

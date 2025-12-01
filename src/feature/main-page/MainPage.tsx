@@ -3,7 +3,7 @@ import { UserDashboard } from "./Dashboard/UserDashboard";
 import { EmptyDashboard } from "./Dashboard/EmptyDashboard";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
-import { ProfileSettings } from "../profile-settings/ProfileSettings";
+import { ProfileSettings } from "./ProfileSettings/ProfileSettings";
 import { useUser } from "../../context/UserContext";
 import { useAuth } from "../../context/AuthenticationContext";
 import { getAccounts } from "../../api/account/account-service";
@@ -17,7 +17,7 @@ import type { Account, Card } from "../../models/User";
 import CreateCardModal from "../modals/CardCreate";
 import { getCards } from "../../api/account/card-service";
 import type { TransactionGetByAccount } from "../../api/transaction/requests";
-import TransfersList from "./Transfers/TransfersList";
+import TransfersList from "./Transactions/TransactionsList";
 
 export default function MainPage() {
   const [activeTab, setActiveTab] = useState("dashboard");

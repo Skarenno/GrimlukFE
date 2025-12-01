@@ -23,7 +23,7 @@ export default function BlockAccountModal({
 
   // Accounts user can transfer to (optional)
   const selectableAccounts = allAccounts.filter(
-    (a) => a.id !== account.id && a.status !== "deleted"
+    (a) => a.id !== account.id && a.status == "active"
   );
 
   const canConfirm = confirmText.trim().toUpperCase() === "BLOCK";
@@ -46,10 +46,10 @@ export default function BlockAccountModal({
           <strong>{account.account_number}</strong> is permanent.
         </p>
         <p className="text-gray-700 dark:text-gray-300 mb-1">
-         <strong>• Cards will be instantly blocked.</strong> 
+         <strong>• Cards tied to this account will be instantly blocked.</strong> 
         </p>
         <p className="text-gray-700 dark:text-gray-300 mb-2">
-         <strong>• If you don`t transfer the money to another account, funds will be blocked</strong> 
+         <strong>• If you don`t transfer your funds to another account, they may be blocked</strong> 
         </p>
 
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">

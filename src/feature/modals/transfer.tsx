@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import type { User } from "../../models/User";
 import type { TransactionCreateRequest } from "../../api/transaction/requests";
 import { createTransaction } from "../../api/transaction/transaction-service";
+import { AccountStatus } from "../utils/enums";
 
 interface MakeTransferModalProps {
   user: User;
@@ -14,7 +15,8 @@ type TransferMode = "EXTERNAL" | "INTERNAL" | "SAME_USER";
 
 export default function MakeTransferModal({ user, onClose }: MakeTransferModalProps) {
 
-  const hasMultipleAccounts = user.accounts.length > 1;
+  const activeAccounts = user.accounts.filter(acct => acct.status == AccountStatus.Active)
+  const hasMultipleAccounts = activeAccounts.length > 1;
 
   const [form, setForm] = useState({
     fromAccountId: "",
@@ -38,11 +40,11 @@ export default function MakeTransferModal({ user, onClose }: MakeTransferModalPr
     }));
   };
 
-  const selectedSendingAccount = user.accounts.find(
+  const selectedSendingAccount = activeAccounts.find(
     acc => acc.id === Number(form.fromAccountId)
   );
 
-  const availableReceivingAccounts = user.accounts.filter(
+  const availableReceivingAccounts = activeAccounts.filter(
     acc => acc.id !== Number(form.fromAccountId)
   );
 
@@ -60,7 +62,7 @@ export default function MakeTransferModal({ user, onClose }: MakeTransferModalPr
     let is_same_user = false;
 
     if (form.mode === "SAME_USER") {
-      const receiving = user.accounts.find(
+      const receiving = activeAccounts.find(
         acc => acc.id === Number(form.internalReceivingAccountId)
       );
 
@@ -146,7 +148,7 @@ export default function MakeTransferModal({ user, onClose }: MakeTransferModalPr
               className="w-full p-2 rounded-lg bg-gray-50 dark:bg-gray-700 border dark:border-gray-600"
             >
               <option value="">Select account</option>
-              {user.accounts.map(acc => (
+              {activeAccounts.map(acc => (
                 <option key={acc.id} value={acc.id}>
                   {acc.account_number} — {acc.currency} {acc.balance}
                 </option>

@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthenticationContext";
 import App from "./App";
 import Home from "./feature/landing-page/Home";
-import MainPage from "./feature/dashboard/MainPage";
+import MainPage from "./feature/main-page/MainPage";
 import { ProtectedRoute } from "./components/Protected";
 import { UserProvider } from "./context/UserContext";
 import { ErrorProvider } from "./context/ErrorContext";

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { FaUserEdit, FaSave } from "react-icons/fa";
-import type { UserInfo } from "../../models/User";
+import type { UserInfo } from "../../../models/User";
 import { InputField } from "./InputField";
-import { submitUserInfo } from "../../api/user/user-info-service";
-import { mapUserInfoToRequest } from "../../utils/mappers";
-import { useUser } from "../../context/UserContext";
+import { submitUserInfo } from "../../../api/user/user-info-service";
+import { mapUserInfoToRequest } from "../../../utils/mappers";
+import { useUser } from "../../../context/UserContext";
 
 
 interface ProfileSettingsProps {

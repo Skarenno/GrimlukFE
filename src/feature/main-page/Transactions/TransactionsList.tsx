@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { Transaction, Account } from "../../../models/User";
-import TransfersFilters from "./TransfersFilters";
-import TransfersGrid from "./TransfersGrid";
+import TransfersFilters from "./TransactionsFilters";
+import TransfersGrid from "./TransactionsGrid";
 
 export type FlowFilter = "all" | "positive" | "negative" | "flat";
 export type SortField = "date" | "amount";

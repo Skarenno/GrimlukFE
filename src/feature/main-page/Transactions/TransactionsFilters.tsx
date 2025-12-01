@@ -1,5 +1,5 @@
 import type { Account } from "../../../models/User";
-import type { FlowFilter, SortField, SortDir } from "./TransfersList";
+import type { FlowFilter, SortField, SortDir } from "./TransactionsList";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 interface Props {
