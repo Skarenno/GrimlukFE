@@ -65,8 +65,8 @@ export default function TransferItem({ transaction }: Props) {
         {/* AMOUNT + ICON */}
         <div className="flex items-center gap-2 font-semibold whitespace-nowrap">
 
-          {isIn && <FaArrowDown className="text-green-500" />}
-          {isOut && <FaArrowUp className="text-red-500" />}
+          {isIn && <FaArrowUp className="text-green-500" />}
+          {isOut && <FaArrowDown className="text-red-500" />}
           {!isIn && !isOut && <FaEquals className="text-blue-500" />}
 
           <span
