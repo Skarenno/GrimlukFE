@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+# Grimluk Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Questo repository contiene il **frontend** dell’applicazione *Grimluk*, una piattaforma bancaria digitale progettata per interagire con un backend a microservizi tramite API REST.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Architettura generale
 
-## React Compiler
+Il frontend rappresenta il layer di presentazione dell’applicazione e si occupa di:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Interazione con l’utente tramite interfaccia web
+- Gestione dello stato applicativo lato client
+- Comunicazione asincrona con il backend tramite richieste HTTP
+- Rendering dinamico dei dati restituiti dalle API
 
-## Expanding the ESLint configuration
+L’architettura è basata su componenti modulari e riutilizzabili, in linea con i paradigmi moderni di sviluppo frontend.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tecnologie utilizzate
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Runtime**: Node.js (v22.20.0)
+- **Framework**: React (Vite)
+- **Linguaggio**: TypeScript
+- **Styling**: Tailwind CSS
+- **Package manager**: npm (v10.9.3)
+- **Requirements**: `package.json`
+- **IDE consigliato**: Visual Studio Code
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Prerequisiti
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Per eseguire il progetto in ambiente di sviluppo è necessario avere installato:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Node.js** 
+- **npm**
+- **Git**
+
+---
+
+## Avvio del progetto
+
+1. Clonare il repository
+2. Posizionarsi nella directory principale del progetto
+3. Installare le dipendenze tramite il comando:  
+   **npm install**
+4. Avviare l’applicazione in modalità di sviluppo tramite il comando:  
+   **npm run dev**
+
+---
+
+## Accesso all’applicazione
+
+Una volta avviata, l’applicazione sarà accessibile tramite browser all’indirizzo indicato nella console, tipicamente:
+
+- http://localhost:5173
